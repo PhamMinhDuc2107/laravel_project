@@ -1,18 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use  Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+//-------------------Admin-------------------
+Route::get('backend/login', function () {
+    return view('admin.login.form_login');
 
-Route::get('/', function () {
-    return view('welcome');
+})->name("login-form");
+Route::post("backend/login-post", function() {
+    $email = request('email');
+    $password = request('password');
+    if(Auth::attempt(['email'=>$email, 'password'=>$password])){
+       return redirect(url('backend'));
+    } else {
+        return redirect(url("backend/login?notify=invalid"));
+    }
 });
+Route::get("backend/logout", function() {
+    Auth::logout();
+    return redirect(url('backend/login'));
+});
+Route::get('backend', function () {
+    return view('admin.home.read');
+})->middleware("check.login");
+//-------------------/Admin-------------------
+//-------------------Frontend-------------------
+//-------------------/Frontend-------------------

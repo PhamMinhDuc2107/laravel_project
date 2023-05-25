@@ -15,9 +15,10 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::check() ) {
+        if(Auth::check() == false ) {
             return redirect(url('backend/login'));
+        } else {
+            return $next($request);
         }
-        return $next($request);
     }
 }

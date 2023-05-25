@@ -24,7 +24,10 @@
                   <img src="{{ asset("admin/images/logos/dark-logo.svg") }}" width="180" alt="">
                 </a>
                 <p class="text-center">Your Social Campaigns</p>
-                @if (Request::get('notify') == "invalid")
+                {{-- @if (Request::get('notify') == "invalid")
+                <div class="alert alert-danger">Sai email hoặc password</div>
+                @endif --}}
+                @if ($errors->any()) 
                 <div class="alert alert-danger">Sai email hoặc password</div>
                 @endif
                 <form method="post" action="{{ url("backend/login-post") }}">
@@ -32,10 +35,16 @@
                   <div class="mb-3">
                     <label class="form-label">Email</label>
                     <input type="email" class="form-control" name="email">
+                    @error('email')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="mb-4">
                     <label class="form-label">Password</label>
                     <input type="password" class="form-control" name="password">
+                    @error('password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="d-flex align-items-center justify-content-center mb-4">
                     <a class="text-primary fw-bold" href="#">Forgot Password ?</a>

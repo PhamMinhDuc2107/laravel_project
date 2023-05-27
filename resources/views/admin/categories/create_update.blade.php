@@ -7,15 +7,22 @@
   <p class="text-center">Your Social Campaigns</p>
   <form method="post" action="{{ url("$action") }}">
     @csrf
-    <div class="mb-3">
-      <label  class="form-label">Name</label>
-      <input type="text" class="form-control" name="name" value="{{ isset($record->name)?$record->name:"" }}">
-    </div>
-    <div class="mb-3">
-      <label  class="form-label">SubCategoris</label>
-      <input type="text" class="form-control" name="subCate" value="{{ isset($record->name)?$record->email:"" }}" >
-    </div>
-    <button type="submit"  class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Insert</button>
+      @php
+      if(isset($record->id))
+          $categories = DB::table("categories")->where("parent_id","=","0")->where("id","<>",$record->id)->orderBy("id","desc")->get();
+      else
+          $categories = DB::table("categories")->where("parent_id","=","0")->orderBy("id","desc")->get();
+      @endphp
+      <h4 class="mb-2 fs-5">Parent</h4>
+      <select name="parent_id" class="form-control mb-2" style="width:250px;">
+          <option value="0"></option>
+          @foreach($categories as $row)
+          <option @if(isset($record->parent_id) && $record->parent_id == $row->id) selected @endif value="{{ $row->id }}">{{ $row->name }}</option>
+          @endforeach
+      </select>
+      <h4 class="mb-2 fs-5">Name</h4>
+      <input type="text" value="{{ isset($record->name)?$record->name:'' }}" name="name" class="form-control mb-2" required>
+    <button type="submit"  class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Create</button>
   </form>
 </div>
 @endsection

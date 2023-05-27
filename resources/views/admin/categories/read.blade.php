@@ -10,40 +10,35 @@
   <table class="table mt-3">
     <thead >
       <tr class="text-center table-primary ">
-        <th scope="col-6">Name</th>
-        <th scope="col-4"> SubCategoris</th>
-        <th scope="col-1">Edit</th>
-        <th scope="col-1">Delete</th>
+        <th class="col-6">Name</th>
+        <th class="col-1">Edit</th>
+        <th class="col-1">Delete</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($categories as $row)
-        <tr class="text-center">
-          @if ($row->parent_id == 0)
-            <td scope="row">{{$row->name}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        @endif
-      @foreach ($subCategories as $subCate)
-        @if ($row->id === $subCate->parent_id)
-          <tr class="text-center">
-            <td></td>
-            <td scope="row ">
-            {{$subCate->name}}
-            <td><a href="{{ url("backend/categories/edit/".$row->id) }}" class = "btn btn-primary">Edit</a></td>
-            <td><a href="{{ url("backend/categories/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "btn btn-danger">Delete</a></td>
+      @foreach($data as $row)
+        <tr>
+            <td>{{ $row->name }}</td>
+            <td class="text-center">
+              <a href="{{ url('backend/categories/edit/'.$row->id) }}" class="btn btn-primary">Edit</a>&nbsp;
             </td>
-          </tr>
-        @endif
-      @endforeach 
-      @endforeach
-
-      
-      
-      
+            <td class="text-center"><a href="{{ url('backend/categories/delete/'.$row->id) }}" onclick="return window.confirm('Are you sure?');" class="btn btn-danger">Delete</a></td>
+        </tr>
+        @php
+        $subCategories = DB::table("categories")->where("parent_id","=",$row->id)->orderBy("id","desc")->get();
+        @endphp
+        @foreach($subCategories as $rowSub)
+        <tr>
+            <td style="padding-left: 30px;">{{ $rowSub->name }}</td>
+            <td  class="text-center">
+              <a href="{{ url('backend/categories/edit/'.$rowSub->id) }}" class="btn btn-primary">Edit</a>&nbsp;
+            </td>
+            <td  class="text-center"><a href="{{ url('backend/categories/delete/'.$rowSub->id) }}" onclick="return window.confirm('Are you sure?');" class="btn btn-danger">Delete</a></td>
+        </tr>
+        @endforeach
+        @endforeach
     </tbody>
   </table>
-  {{ $categories->render() }}
+  {{ $data->render() }}
 </div>
 @endsection

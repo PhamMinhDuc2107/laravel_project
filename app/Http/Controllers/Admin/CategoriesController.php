@@ -8,40 +8,35 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
-    function read() {
-        $categories = DB::table('categories')->orderBy("id", "desc")->where("parent_id", "=", "0")->paginate(10);
-        $subCategories = DB::table('categories')->where("parent_id",'!=', "0")->get();
-        return view("admin.categories.read", compact('categories',"subCategories"));
+    public function read(Request $request){
+        $data = DB::table('categories')->where("parent_id","=","0")->orderBy("id","desc")->paginate(4);
+        return view("admin.categories.read",["data"=>$data]);
     }
-    function edit($id) {
-        $action = "backend/categories/edit-post/".$id;
-        $record = DB::table('categories')->where("id", "=", $id)->first();
-        return view("admin.categories.create_update", compact(["action", "record"]));
+    public function edit(Request $request,$id){
+        $record = DB::table('categories')->where("id","=",$id)->first();
+        $action = url('backend/categories/edit-post/'.$id);
+        return view("admin.categories.create_update",["record"=>$record,"action"=>$action]);
+        
     }
-    function editPost(Request $request, $id) {
-        $email = request('email');
-        $name = request('name');
-        $password = request('password');
-        DB::table('categories')->where("id", '=', $id)->update(['name'=>$name, "email"=>$email]);
-        return redirect((url("backend/categories")));
+    public function editPost(Request $request,$id){
+        $name = $request->get("name");
+        $parent_id = $request->get("parent_id");
+        //update name
+        DB::table('categories')->where("id","=",$id)->update(["name"=>$name,"parent_id"=>$parent_id]);
+        return redirect(url('backend/categories'));
     }
-    function create() {
-        $action = "backend/categories/create-post";
-        return view("admin.categories.create_update", compact('action'));
+    public function create(Request $request){
+        $action = url('backend/categories/create-post');
+        return view("admin.categories.create_update",["action"=>$action]);
     }
-    function createPost() {
-        $name = request("name");
-        $id = DB::table("categories")->where("name", "==", $name)->value('id');
-        $subCate = request("subCate");
-        if(DB::table('categories')->where("name", "!=", $name) && $id = null) { 
-            DB::table("categories")->insert(['name'=>$name, "parent_id"=>"0"]); 
-            $id = DB::table("categories")->where("name", "==", $name)->value('id');
-        }
-        DB::table("categories")->insert(['name'=>$subCate, 'parent_id'=>$id]);
-        return redirect(url("backend/categories"));
+    public function createPost(Request $request){
+        $name = $request->get("name");
+        $parent_id = $request->get("parent_id");
+        DB::table('categories')->insert(["name"=>$name,"parent_id"=>$parent_id]);
+        return redirect(url('backend/categories'));
     }
-    function delete($id) {
-        DB::table('categories')->where("id", "=", $id)->delete();
-        return redirect(url("backend/categories"));
+    public function delete(Request $request,$id){
+        $record = DB::table('categories')->where("id","=",$id)->orWhere("parent_id","=",$id)->delete();
+        return redirect(url('backend/categories'));
     }
 }

@@ -22,6 +22,14 @@
       </select>
       <h4 class="mb-2 fs-5">Name</h4>
       <input type="text" value="{{ isset($record->name)?$record->name:'' }}" name="name" class="form-control mb-2" required>
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="mb-2 fs-5">Display at home page</h4>
+          <input type="checkbox"
+            @if (isset($record->display_at_home_page))
+              {{ $record->display_at_home_page == 1 ? "checked" : ""}}
+          @endif
+          name="hot" class=" mb-2">
+        </div>
     <button type="submit"  class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Create</button>
   </form>
 </div>

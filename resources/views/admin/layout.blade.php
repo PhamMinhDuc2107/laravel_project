@@ -9,7 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Modernize Free</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset("admin/images/logos/favicon.png") }}" />
+  <link rel="stylesheet" href="{{ asset("admin/css/app.css") }}">
   <link rel="stylesheet" href="{{ asset("admin/css/styles.min.css") }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -48,6 +52,22 @@
               </a>
             </li>
             <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url("backend/products") }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Products</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url("backend/news") }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">News</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url("/backend/users") }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-user-plus"></i>
@@ -55,12 +75,13 @@
                 <span class="hide-menu">Users</span>
               </a>
             </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ url("backend/logout") }}" aria-expanded="false">
+            <li class="sidebar-item btn-logout">
+              <a class="sidebar-link " href="{{ url("backend/logout") }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-logout"></i>
                 </span>
-                <span class="hide-menu">Logout</span>
+                <span class="hide-menu ">Logout</span>
+                
               </a>
             </li>
           </ul>
@@ -111,7 +132,7 @@
                       <i class="ti ti-list-check fs-6"></i>
                       <p class="mb-0 fs-3">My Task</p>
                     </a>
-                    <a href="{{ url("backend/logout") }}" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                    <a href="{{ url("backend/logout") }}" class="btn btn-outline-primary mx-3 mt-2 d-block btn-logout">Logout</a>
                   </div>
                 </div>
               </li>
@@ -124,7 +145,7 @@
         <!--  Row 1 -->
         <div class="row">
           <div class="col-lg-12 d-flex align-items-strech">
-              @yield('data-view')
+            @yield('data-view')
           </div>
         </div>
       </div>
@@ -137,6 +158,9 @@
   <script src="{{ asset("admin/libs/apexcharts/dist/apexcharts.min.js") }}"></script>
   <script src="{{ asset("admin/libs/simplebar/dist/simplebar.js") }}"></script>
   <script src="{{ asset("admin/js/dashboard.js") }}"></script>
+  <script src="{{ asset("admin/js/app.js") }}"></script>
 </body>
-
+  <script>
+    
+  </script>
 </html>

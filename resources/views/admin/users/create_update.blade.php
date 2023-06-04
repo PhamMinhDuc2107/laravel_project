@@ -19,7 +19,7 @@
       <label  class="form-label">Password</label>
       <input type="password" class="form-control" name="password" placeholder="Nếu không muốn đổi mật khẩu thì không điền vào ô này">
     </div>
-    <button type="submit"  class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Register</button>
+    <button type="submit"   class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Register</button>
   </form>
 </div>
 @endsection

@@ -15,7 +15,7 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() == false ) {
+        if(Auth::check() == false && !$request->session()->has("name") ) {
             return redirect(url('backend/login'));
         } else {
             return $next($request);

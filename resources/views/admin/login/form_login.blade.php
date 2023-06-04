@@ -24,9 +24,9 @@
                   <img src="{{ asset("admin/images/logos/dark-logo.svg") }}" width="180" alt="">
                 </a>
                 <p class="text-center">Your Social Campaigns</p>
-                {{-- @if (Request::get('notify') == "invalid")
+                @if (Request::get('notify') == "invalid")
                 <div class="alert alert-danger">Sai email hoặc password</div>
-                @endif --}}
+                @endif
                 @if ($errors->any()) 
                 <div class="alert alert-danger">Sai email hoặc password</div>
                 @endif

@@ -1,0 +1,116 @@
+.newDetail-container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: -15px;
+}
+.newDetail-left {
+  width: 870px;
+  padding: 30px 15px 0 15px;
+}
+.newDetail-title {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 32px;
+  margin-bottom: 15px;
+}
+.newDetail-author {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  color: #646369;
+}
+.newDetail-author-name {
+  display: inline-block;
+  padding: 0 5px;
+  color: #2775d2;
+}
+.newDetail-article {
+  padding-bottom: 45px;
+  border-bottom: 1px solid #eee;
+}
+.newDetail-article-title {
+  font-size: 28px;
+  line-height: 35px;
+  color: #323c3f;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.newDetail-article-subtitle {
+  font-size: 24px;
+  color: #323c3f;
+  margin: 48px 0 10px 0;
+  font-weight: 500;
+}
+.newDetail-article p {
+  color: #646369;
+  line-height: 22px;
+}
+.newDetail-article img {
+  display: block;
+  margin: 10px auto;
+}
+/* newDetail-social */
+.newDetail-social {
+  padding: 15px 0;
+  text-align: right;
+}
+.newDetail-social span {
+  display: inline-block;
+  padding: 5px 10px;
+  line-height: 22px;
+  border: 1px solid #eee;
+  color: #575454;
+}
+.newDetail-social i {
+  padding-right: 5px;
+}
+/* }formComment */
+.form-comment-text {
+  font-size: 16px;
+  color: #2f2f33;
+  padding-top: 15px;
+  margin: 10px 0;
+  line-height: 22px;
+}
+.form-comment {
+  padding-bottom: 50px;
+}
+.form-comment-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-comment-input {
+  padding: 10px;
+  width: 45%;
+  border: 1px solid #eee;
+  outline: none;
+  font-size: 14px;
+
+  border-radius: 4px;
+}
+.form-comment-input-full {
+  font-size: 14px;
+  text-align: start;
+  width: 100%;
+  padding: 20px;
+  margin: 30px 0;
+  height: 170px;
+  outline: none;
+}
+.form-comment-btn {
+  padding: 12px 25px;
+  background-color: #2775d2;
+  color: white;
+  font-weight: 400;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.form-comment-btn:hover {
+  border-color: #2775d2;
+  color: #2775d2;
+  background-color: white;
+}

@@ -59,5 +59,15 @@ Route::prefix("backend")->group(function( ) {
 })->middleware("check.login");
 //-------------------/Admin-------------------
 //-------------------Frontend-------------------
+use App\Http\Controllers\Frontend\ProductsController as  frontendProducts;
+use App\Http\Controllers\Frontend\CustomersController;
 Route::get("/",[HomeController::class, "index"]);
+Route::get("/products",[frontendProducts::class, "read"]);
+Route::get('products/detail/{id}', [frontendProducts::class, "productsDetail"]);
+Route::get('products/detail/{id}', [frontendProducts::class, "productsDetail"]);
+Route::get('customers/login',[CustomersController::class,'login']);
+Route::post('customers/login-post',[CustomersController::class,'loginPost']);
+Route::get('customers/register',[CustomersController::class,'register']);
+Route::post('customers/register-post',[CustomersController::class,'registerPost']);
+Route::get('customers/logout',[CustomersController::class,'logout']);
 //-------------------/Frontend-------------------

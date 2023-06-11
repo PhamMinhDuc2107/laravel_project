@@ -24,9 +24,18 @@
 <body>
   <div class="wrapper">
     {{-- header --}}
-    @include('frontend.header')
-    @yield('data-view')
-    @include('frontend.footer')
+    @include('frontend.blocks.header')
+    {{-- /header --}}
+    {{-- slider --}}
+    @include('frontend.blocks.slider')
+    {{-- slider --}}
+    {{-- main --}}
+    @yield("data-view")
+    {{-- /main --}}
+    {{-- footer --}}
+    @include('frontend.blocks.footer')
+    {{-- /footer --}}
   </div>
 </body>
+<script src="{{ asset("frontend/js/app.js") }}"></script>
 </html>

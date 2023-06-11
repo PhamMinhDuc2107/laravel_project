@@ -1,53 +1,24 @@
 @extends('frontend.layout_home')
-@section('data-view')
-  <!-- slider -->
- <div class="slider">
-  <div class="container">
-    <div class="slider-container">
-      <a href="#" class="slider-link">
-        <img src="./public/images/slide_img_1.webp" alt=""
-          class="slider-img" />
-      </a>
-      <div class="slider-right">
-        <a href="#" class="slider-link">
-          <img src="./public/images/banner_slide_img_1.webp" alt=""
-            class="slider-img" />
-          <div class="overplay-hover">
-            <img src="./public/images/icon-plus.png" alt=""
-              class="overplay-hover-icon" />
-          </div>
-        </a>
-        <a href="#" class="slider-link">
-          <img src="./public/images/banner_slide_img_2.webp" alt=""
-            class="slider-img" />
-          <div class="overplay-hover">
-            <img src="./public/images/icon-plus.png" alt=""
-              class="overplay-hover-icon" />
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /slider -->
+@section("data-view")
 <!-- productMobile -->
 <div class="product">
   <div class="container">
     <div class="product-container">
+      {{-- Điện thoại --}}
       <!-- product nav -->
       <div class="product-nav productMobile-color">
         <h3 class="product-nav-title">Điện thoại</h3>
         <ul class="product-nav-list">
           <li class="product-nav-item">
-            <a href="<?php echo BASE_URL ?>Home" class="product-nav-link">Trang
+            <a href="#Home" class="product-nav-link">Trang
               chủ</a>
           </li>
           <li class="product-nav-item">
-            <a href="<?php echo BASE_URL ?>Product"
+            <a href="{{ url("/products") }}"
               class="product-nav-link">Sản phẩm</a>
           </li>
           <li class="product-nav-item">
-            <a href="<?php echo BASE_URL ?>Blog"
+            <a href="#Blog"
               class="product-nav-link">Blog</a>
           </li>
           <li class="product-nav-item">
@@ -59,272 +30,73 @@
         </ul>
       </div>
       <!-- /product-nav -->
-      <!-- product-list -->
+      {{-- product-list --}}
       <div class="product-list">
         <a class="product-banner">
-          <img src="./public/images/collection_module_1_banner.webp" alt=""
+          <img src="frontend/images/collection_module_1_banner.webp" alt=""
             class="product-banner-img" />
           <div class="overplay-hover">
-            <img src="./public/images/icon-plus.png" alt=""
+            <img src="frontend/images/icon-plus.png" alt=""
               class="overplay-hover-icon" />
           </div>
         </a>
+        @foreach ($products as $item)
+        {{-- products-item --}}
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
-            <span class="product-item-sale">- 7%</span>
+            @if ($item->discount > 0) 
+            <span class="product-item-sale">{{ $item->discount }}%</span>
+            @endif
             <div class="product-item-content">
-              <img src="./public/images/s9-plus-xam-1520216500.webp" alt="" />
+              <img src="{{ asset("upload/products/$item->photo") }}" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="#Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
             </div>
           </div>
           <div class="product-info">
-            <span class="product-info-name">Samsung</span>
-            <h4 class="product-info-title">Samsung Galaxy S9+ 128GB</h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 8%</span>
-            <div class="product-item-content">
-              <img src="./public/images/IphoneX.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
+            <span class="product-info-name">{{ 
+              App\Models\Admin\ProductsModel::getCategoryName($item->category_id) }}</span>
+            <h4 class="product-info-title">{{ $item->name }}</h4>
+            @if($item->discount > 0)
+            <div>
+              <span class="product-price-old">{{ ($item->price * ($item->discount / 100)) + $item->price  }}đ</span>
+            @endif()
+            <span class="product-price">{{ $item->price }}đ</span>
             </div>
           </div>
-          <div class="product-info">
-            <span class="product-info-name">Apple</span>
-            <h4 class="product-info-title">Iphone X 256GB</h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
         </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 4%</span>
-            <div class="product-item-content">
-              <img src="./public/images/oppo-f5-gold.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Oppo</span>
-            <h4 class="product-info-title">OPPO F5 6GB</h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 13%</span>
-            <div class="product-item-content">
-              <img src="./public/images/s9-plus-xam-1520216500.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Apple</span>
-            <h4 class="product-info-title">
-              iPad Pro 10.5 inch Wifi Cellular 64GB
-            </h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 19%</span>
-            <div class="product-item-content">
-              <img src="./public/images/Iphone8.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Apple</span>
-            <h4 class="product-info-title">
-              IPhone 8 - 256GB Silver (Likenew)
-            </h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 11%</span>
-            <div class="product-item-content">
-              <img src="./public/images/TabA6.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Samsung</span>
-            <h4 class="product-info-title">
-              Samsung Galaxy Tab A6 10.1 Spen
-            </h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 8%</span>
-            <div class="product-item-content">
-              <img alt=""
-                src="./public/images/huawei-mediapad-m3-115-400x460.webp" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Huawei</span>
-            <h4 class="product-info-title">
-              Huawei MediaPad M3 8.0 (2017)
-            </h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 18%</span>
-            <div class="product-item-content">
-              <img src="./public/images/s8-plus.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Samsung</span>
-            <h4 class="product-info-title">
-              Galaxy S8 Plus Black Chính hãng (Likenew)
-            </h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <div class="product-item-content">
-              <img src="./public/images/oppo-f5-gold.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Oppo</span>
-            <h4 class="product-info-title">
-              OPPO F5 Gold Chính hãng (Likenew)
-            </h4>
-            <span class="product-price-old"></span>
-            <span class="product-price">Liên hệ</span>
-          </div>
-        </div>
-        <div class="product-item" href="./productDetail">
-          <div class="product-item-img">
-            <span class="product-item-sale">- 7%</span>
-            <div class="product-item-content">
-              <img src="./public/images/samsung-galaxy-note-8.webp" alt="" />
-              <div class="overplay-product">
-                <a href="#"><i
-                    class="fa fa-search overplay-product-icon icon-viewProduct"
-                    data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
-                    class="fa-solid fa-cart-shopping overplay-product-icon"
-                    data-tooltip="Giỏ hàng"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="product-info">
-            <span class="product-info-name">Samsung</span>
-            <h4 class="product-info-title">Samsung Galaxy Note 8</h4>
-            <span class="product-price-old">26.990.000đ</span>
-            <span class="product-price">24.990.000đ</span>
-          </div>
-        </div>
+        {{-- /products-item --}}
+        @endforeach
       </div>
-      <!-- /product-list -->
+      {{-- /product-list --}}
       <!-- product-brand -->
       <div class="product-brand">
         <a href="" class="product-brand-item">
-          <img src="./public/images/Iphone.webp" alt=""
+          <img src="frontend/images/Iphone.webp" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/samsung.webp" alt=""
+          <img src="frontend/images/samsung.webp" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/mi.png" alt="" class="product-brand-img" />
+          <img src="frontend/images/mi.png" alt="" class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/oppo.png" alt=""
+          <img src="frontend/images/oppo.png" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/LG.png" alt="" class="product-brand-img" />
+          <img src="frontend/images/LG.png" alt="" class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/VIVO.webp" alt=""
+          <img src="frontend/images/VIVO.webp" alt=""
             class="product-brand-img" />
         </a>
       </div>
@@ -338,34 +110,34 @@
   <div class="container">
     <div class="banner-container">
       <a class="banner-item">
-        <img src="./public/images/banner1.webp" alt=""
+        <img src="frontend/images/banner1.webp" alt=""
           class="banner-item-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
       <a class="banner-item">
-        <img src="./public/images/banner2.webp" alt=""
+        <img src="frontend/images/banner2.webp" alt=""
           class="banner-item-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
       <a class="banner-item">
-        <img src="./public/images/banner3.webp" alt=""
+        <img src="frontend/images/banner3.webp" alt=""
           class="banner-item-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
       <a class="banner-item">
-        <img src="./public/images/banner4.webp" alt=""
+        <img src="frontend/images/banner4.webp" alt=""
           class="banner-item-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
@@ -402,23 +174,23 @@
       <!-- product-list -->
       <div class="product-list">
         <a class="product-banner">
-          <img src="./public/images/bannreLaptop.webp" alt=""
+          <img src="frontend/images/bannreLaptop.webp" alt=""
             class="product-banner-img" />
 
           <div class="overplay-hover">
-            <img src="./public/images/icon-plus.png" alt=""
+            <img src="frontend/images/icon-plus.png" alt=""
               class="overplay-hover-icon" />
           </div>
         </a>
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/yogaLaptop.webp" alt="" />
+              <img src="frontend/images/yogaLaptop.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -436,12 +208,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/acer1.webp" alt="" />
+              <img src="frontend/images/acer1.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -459,12 +231,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/Toshiba1.webp" alt="" />
+              <img src="frontend/images/Toshiba1.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -482,12 +254,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/mac1.webp" alt="" />
+              <img src="frontend/images/mac1.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -506,12 +278,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 5%</span>
             <div class="product-item-content">
-              <img src="./public/images/mac1.webp" alt="" />
+              <img src="frontend/images/mac1.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -529,12 +301,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/yogaLaptop.webp" alt="" />
+              <img src="frontend/images/yogaLaptop.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -553,12 +325,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 4%</span>
             <div class="product-item-content">
-              <img src="./public/images/nitro5.webp" alt="" />
+              <img src="frontend/images/nitro5.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -577,12 +349,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 9%</span>
             <div class="product-item-content">
-              <img src="./public/images/asus.webp" alt="" />
+              <img src="frontend/images/asus.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -601,12 +373,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 9%</span>
             <div class="product-item-content">
-              <img src="./public/images/Dell.webp" alt="" />
+              <img src="frontend/images/Dell.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -625,12 +397,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 8%</span>
             <div class="product-item-content">
-              <img src="./public/images/mac2.webp" alt="" />
+              <img src="frontend/images/mac2.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -650,18 +422,18 @@
     </div>
     <div class="productLaptop-banner">
       <a href="#" class="productLaptop-banner-item">
-        <img src="./public/images/bannerLaptop1.webp" alt=""
+        <img src="frontend/images/bannerLaptop1.webp" alt=""
           class="productLaptop-banner-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
       <a href="#" class="productLaptop-banner-item">
-        <img src="./public/images/bannerLaptop2.webp" alt=""
+        <img src="frontend/images/bannerLaptop2.webp" alt=""
           class="productLaptop-banner-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
@@ -698,10 +470,10 @@
       <!-- product-list -->
       <div class="product-list">
         <a class="product-banner">
-          <img src="./public/images/bannerAc.webp" alt=""
+          <img src="frontend/images/bannerAc.webp" alt=""
             class="product-banner-img" />
           <div class="overplay-hover">
-            <img src="./public/images/icon-plus.png" alt=""
+            <img src="frontend/images/icon-plus.png" alt=""
               class="overplay-hover-icon" />
           </div>
         </a>
@@ -710,13 +482,13 @@
             <span class="product-item-sale">- 14%</span>
             <div class="product-item-content">
               <img
-                src="./public/images/tai-nghe-chup-tai-kanen-ip-2090-11-300x300.webp"
+                src="frontend/images/tai-nghe-chup-tai-kanen-ip-2090-11-300x300.webp"
                 alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -735,12 +507,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 20%</span>
             <div class="product-item-content">
-              <img src="./public/images/chuot.webp" alt="" />
+              <img src="frontend/images/chuot.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -759,13 +531,13 @@
           <div class="product-item-img">
             <div class="product-item-content">
               <img
-                src="./public/images/kinh-thuc-te-ao-samsung-gear-vr-sm-r325-400x400.webp"
+                src="frontend/images/kinh-thuc-te-ao-samsung-gear-vr-sm-r325-400x400.webp"
                 alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -784,13 +556,13 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 7%</span>
             <div class="product-item-content">
-              <img src="./public/images/samsung-gear-fit2-pro-2-330x330.webp"
+              <img src="frontend/images/samsung-gear-fit2-pro-2-330x330.webp"
                 alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -806,12 +578,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/19.webp" alt="" />
+              <img src="frontend/images/19.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -826,12 +598,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/sacdu.webp" alt="" />
+              <img src="frontend/images/sacdu.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -847,12 +619,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/15.webp" alt="" />
+              <img src="frontend/images/15.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -868,12 +640,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/gaychupanh.webp" alt="" />
+              <img src="frontend/images/gaychupanh.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -889,12 +661,12 @@
         <div class="product-item" href="./productDetail">
           <div class="product-item-img">
             <div class="product-item-content">
-              <img src="./public/images/gay.webp" alt="" />
+              <img src="frontend/images/gay.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -911,12 +683,12 @@
           <div class="product-item-img">
             <span class="product-item-sale">- 10%</span>
             <div class="product-item-content">
-              <img src="./public/images/30.webp" alt="" />
+              <img src="frontend/images/30.webp" alt="" />
               <div class="overplay-product">
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="<?php echo BASE_URL ?>Cart"><i
+                <a href="Cart"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
@@ -936,25 +708,25 @@
       <!-- product-brand -->
       <div class="product-brand">
         <a href="" class="product-brand-item">
-          <img src="./public/images/Iphone.webp" alt=""
+          <img src="frontend/images/Iphone.webp" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/samsung.webp" alt=""
+          <img src="frontend/images/samsung.webp" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/mi.png" alt="" class="product-brand-img" />
+          <img src="frontend/images/mi.png" alt="" class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/oppo.png" alt=""
+          <img src="frontend/images/oppo.png" alt=""
             class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/LG.png" alt="" class="product-brand-img" />
+          <img src="frontend/images/LG.png" alt="" class="product-brand-img" />
         </a>
         <a href="" class="product-brand-item">
-          <img src="./public/images/VIVO.webp" alt=""
+          <img src="frontend/images/VIVO.webp" alt=""
             class="product-brand-img" />
         </a>
       </div>
@@ -962,10 +734,10 @@
     </div>
     <div class="banner-full">
       <a href="#">
-        <img src="./public/images/bannerFull.webp" alt=""
+        <img src="frontend/images/bannerFull.webp" alt=""
           class="banner-full-img" />
         <div class="overplay-hover">
-          <img src="./public/images/icon-plus.png" alt=""
+          <img src="frontend/images/icon-plus.png" alt=""
             class="overplay-hover-icon" />
         </div>
       </a>
@@ -973,13 +745,13 @@
   </div>
 </div>
 <!-- /productAccessory -->
-<!-- service -->
+{{-- sevice --}}
 <section class="service">
   <div class="container">
     <div class="service-container">
       <div class="service-item">
         <span class="service-item-img blue">
-          <img src="./public/images/icondv_1.webp" alt="" />
+          <img src="{{ asset("frontend/images/icondv_1.webp") }}" alt="" />
         </span>
         <div class="service-content">
           <h4 class="service-content-title">Miễn phí vận chuyển</h4>
@@ -988,7 +760,7 @@
       </div>
       <div class="service-item">
         <span class="service-item-img red">
-          <img src="./public/images/icondv_2.webp" alt="" class="" />
+          <img src="{{ asset('frontend/images/icondv_2.webp') }}" alt="" class="" />
         </span>
         <div class="service-content">
           <h4 class="service-content-title">Hoàn tiền</h4>
@@ -997,7 +769,7 @@
       </div>
       <div class="service-item">
         <span class="service-item-img green">
-          <img src="./public/images/icondv_3.webp" alt="" />
+          <img src="{{ asset("frontend/images/icondv_3.webp") }}" alt="" />
         </span>
         <div class="service-content">
           <h4 class="service-content-title">Hỗ trợ thân thiện</h4>
@@ -1006,7 +778,7 @@
       </div>
       <div class="service-item">
         <span class="service-item-img purple">
-          <img src="./public/images/icondv_4.webp" alt="" />
+          <img src="{{ asset('frontend/images/icondv_4.webp') }}" alt="" />
         </span>
         <div class="service-content">
           <h4 class="service-content-title">Thanh toán</h4>

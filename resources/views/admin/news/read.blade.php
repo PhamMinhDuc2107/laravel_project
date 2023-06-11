@@ -23,19 +23,23 @@
             <table class="table table-bordered table-hover">
                 <tr class="table-primary">
                     <th style="width:100px;">Photo</th>
-                    <th>Name</th>
+                    <th style="width:100px">Name</th>
+                    <th style="width:200px">Description</th>
+                    <th style="width:100px">Content</th>
                     <th style="width:80px;">Hot</th>
-                    <th style="width:100px;"></th>
-                    <th style="width:100px;"></th>
+                    <th style="width:80px;">Edit</th>
+                    <th style="width:100px;">Delete</th>
                 </tr>
                 @foreach($data as $row)
                 <tr>
                     <td>
                     	@if($row->photo != "" && file_exists('upload/news/'.$row->photo))
-                    	<img src="{{ asset('upload/news/'.$row->photo) }}" style="width:100px;">
+                    	<img src="{{ asset('upload/news/'.$row->photo) }}" style="width:100%; height: 100px; object-fit: cover;">
                     	@endif
                     </td>
                     <td>{{ $row->name }}</td>
+                    <td>{!! $row->description !!}</td>
+                    <td>{!! $row->content !!}</td>
                     <td style="text-align:center;">
                     	@if($row->hot == 1)
                     	<i class="fa-sharp fa-regular fa-square-check"></i>

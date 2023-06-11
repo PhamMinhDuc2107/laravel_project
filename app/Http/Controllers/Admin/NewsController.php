@@ -12,7 +12,7 @@ class NewsController extends Controller{
 	public $model;
 	public function __construct(){
 		$this->model = new NewsModel();
-	}
+	} 
 	public function read(Request $request){
 		$search = $request->input("search") ?? "";
 		if($search != "" ) {
@@ -28,7 +28,7 @@ class NewsController extends Controller{
 		return view("admin.news.create_update",["record"=>$record,"action"=>$action]);
 	}
 	public function updatePost($id){
-		$this->model->modelUpdate($id);
+		$this->model->modelNewsUpdate($id);
 		return redirect(url("backend/news"));
 	}
 	public function create(){
@@ -37,11 +37,11 @@ class NewsController extends Controller{
 		return view("admin.news.create_update",["action"=>$action]);
 	}
 	public function createPost(){
-		$this->model->modelCreate();
+		$this->model->modelNewsCreate();
 		return redirect(url("backend/news"));
 	}
 	public function delete($id){
-		$this->model->modelDelete($id);
+		$this->model->modelNewsDelete($id);
 		return redirect(url("backend/news"));
 	}
 }

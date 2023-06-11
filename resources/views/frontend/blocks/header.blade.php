@@ -119,12 +119,25 @@
       <!-- /haeder-center -->
       <!-- header-right -->
       <div class="header-right">
-        <a href="#Login" class="header-register">
+        @php
+          $customer_email = session()->get("customer_email");
+        @endphp
+        @if (isset($customer_email))
+        <a href="{{ url("#") }}" class="header-register">
+          <i class="fa-regular fa-user"></i>
+          <span>
+            Xin Chào {{ $customer_email }}
+          </span>
+          <a href="{{ url("customers/logout") }}">Logout</a>
+        </a>
+        @else
+        <a href="{{ url("customers/login") }}" class="header-register">
           <i class="fa-regular fa-user"></i>
           <span>
             Tài Khoản
           </span>
         </a>
+        @endif
         <div class="header-cart">
           <a href="./cart"><i class="fa fa-bag-shopping"></i></a>
           <span class="header-cart-text">0</span>

@@ -18,7 +18,7 @@
           <a href="{{ url("backend/products/create") }}" class="btn btn-success d-block">Create</a>
         </div>
       </div>
-            <table class="table table-bordered mt-3">
+            <table class="table table-bordered mt-3 p-2">
                 <tr class="table-primary">
                     <th style="width: 100px">Photo</th>
                     <th style="width: 250px">Name</th>
@@ -26,14 +26,14 @@
                     <th style="width: 100px">Price</th>
                     <th style="width: 80px">Discount</th>
                     <th style="width: 80px">Hot</th>
-                    <th style="width:80px"></th>
-                    <th style="width:80px"></th>
+                    <th style="width:80px">Edit</th>
+                    <th style="width:80px">Delete</th>
                 </tr>
                 @foreach($data as $row)
                 <tr>
                     <td >
                       @if($row->photo != "" && file_exists('upload/products/'.$row->photo))
-                        <img src="{{ asset("upload/products/$row->photo") }}" alt="" style="">
+                        <img src="{{ asset("upload/products/$row->photo") }}" alt="" style="width:100%; height: 100px; object-fit: cover;>">
                       @endif  
                     </td>
                     <td >{{ $row->name }}</td>

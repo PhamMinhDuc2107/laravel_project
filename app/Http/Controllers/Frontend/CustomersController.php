@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class CustomersController extends Controller
 {
     public function login(){
-        return view("frontend.pages.form_customer_login");
+        return view("frontend.pages.customer.form_customer_login");
     }
     public function loginPost(){
         $email = request()->get("email");
@@ -22,13 +22,15 @@ class CustomersController extends Controller
             if(Hash::check($password,$record->password)){
                 session()->put("customer_email",$record->email);
                 session()->put("customer_id",$record->id);
+                session()->put("customer_name",$record->name);
                 return redirect(url(''));
             }
+        }else {
+        return redirect(url('customers/login?notify=invalid'));
         }
-        return redirect(url('customer/login?notify=invalid'));
     }
     public function register(){
-        return view("frontend.pages.form_customer_register");
+        return view("frontend.pages.customer.form_customer_register");
     }
     public function registerPost(){
         $email = request()->get("email");
@@ -46,8 +48,7 @@ class CustomersController extends Controller
         return redirect(url('customers/login'));
     }
     public function logout(){
-        session()->remove("customer_email");
-        session()->remove("customer_id");
+        session()->flush();
         return redirect(url(''));
     }
 }

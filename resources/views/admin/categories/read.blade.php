@@ -1,6 +1,9 @@
 @extends('admin.layout')
 @section('data-view')
-<div class="container">
+@php
+    use App\Http\Controllers\Components;
+@endphp
+<div class="container-fluid">
   <div class="row text-center">
     <h3 class="mb-3">List Categories</h3>
     <form class="col-12 mb-5 search-form" method="">
@@ -17,6 +20,9 @@
     <div class="col-2">
       <a href="{{ url("backend/categories/create") }}" class="btn btn-success d-block">Create</a>
     </div>
+  </div>
+  <div>
+    {{ isset($msg) ? $msg : "" }}
   </div>
   <table class="table mt-3 table-hover table-bordered">
     <thead >
@@ -47,7 +53,7 @@
         @if ($search === "") 
         @foreach($subCategories as $rowSub)
         <tr>
-            <td style="padding-left: 30px;">{{ $rowSub->name }}</td>
+            <td style="padding-left: 50px;">{{ $rowSub->name }}</td>
             <td class="text-center">
               @if ($rowSub->display_at_home_page == 1)
               <i class="fa-sharp fa-regular fa-square-check"></i>
@@ -63,15 +69,15 @@
         @endforeach
     </tbody>
   </table>
-  {{-- {{ $data->render() }} --}}
+  <div class="pagination">
+    {{ $data->links('pagination::bootstrap-4') }}
+  </div>
 </div>
 <style>
   * {
     padding: 0;
     margin: 0;
     box-sizing: border-box
-  }
-  td {
   }
 </style>
 @endsection

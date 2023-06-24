@@ -35,13 +35,9 @@
     <div class="header-topbar-container">
       <div class="header-left">
         <i class="fa fa-bars header-menu"></i>
-        <a href="#">
+        <a href="{{ url("") }}">
           <img src="{{ asset("frontend/images/logo.png") }}" alt="" />
         </a>
-        <div class="header-cart">
-          <a href="./cart"><i class="fa fa-bag-shopping"></i></a>
-          <span class="header-cart-text">0</span>
-        </div>
       </div>
       <!-- header center -->
       <div class="header-center">
@@ -51,7 +47,7 @@
         </div>
         <ul class="header-category-list">
           <li class="header-category-item">
-            <a href="./shop" class="header-category-item-link">
+            <a href="{{ url("/products") }}" class="header-category-item-link">
               <div>
                 <i class="fa fa-heart"></i>
                 Tất cả sản phẩm
@@ -59,77 +55,86 @@
               <i class="fa-solid fa-caret-right header-category-item-icon"></i>
             </a>
             <ul class="header-nav-list">
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Điện thoại</a>
-              </li>
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Tablet</a>
-              </li>
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Laptop </a>
-              </li>
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Tivi</a>
-              </li>
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Máy ảnh</a>
-              </li>
-              <li class="header-nav-item">
-                <a href="shop" class="header-nav-link">Phụ kiện</a>
-              </li>
+              @php
+                 $categories =  App\Http\Controllers\Components\StaticController::getCategories()
+              @endphp
+              @if (isset($categories))
+                @foreach ($categories as $item)
+                <li class="header-nav-item">
+                  <a href="{{ url("/products/$item->id") }}" class="header-nav-link">{{ $item->name }}</a>
+                </li>
+                @endforeach
+              @endif
             </ul>
           </li>
           <li class="header-category-item">
-            <a href="shop" class="header-category-item-link">
+            <a href="{{ url('products/news') }}" class="header-category-item-link">
               <div><i class="fa fa-heart"></i> Sản phẩm mới</div>
             </a>
           </li>
           <li class="header-category-item">
-            <a href="shop" class="header-category-item-link">
+            <a href="{{ url('products/hot') }}" class="header-category-item-link">
               <div><i class="fa fa-heart"></i> Sản phẩm nổi bật</div>
             </a>
           </li>
           <li class="header-category-item">
-            <a href="shop" class="header-category-item-link">
+            <a href="{{ url("products/sale") }}" class="header-category-item-link">
               <div>
                 <i class="fa fa-heart"></i> Sản phẩm khuyến mãi
               </div>
             </a>
           </li>
-          <li class="header-category-item">
-            <a href="shop" class="header-category-item-link">
-              <div><i class="fa fa-heart"></i> Máy likenew</div>
-            </a>
-          </li>
-          <li class="header-category-item">
-            <a href="shop" class="header-category-item-link">
-              <div><i class="fa fa-heart"></i> Máy cũ giá rẻ</div>
-            </a>
-          </li>
         </ul>
-
-        <form for="" class="header-search">
-          <input type="text" name="" id="" class="header-search-input"
-            placeholder="Tìm kiếm sản phẩm..." />
-          <i class="fa fa-search header-search-icon"></i>
-          <button class="header-search-btn ">Tìm Kiếm</button>
-        </form>
-
+          <div class="header-search">
+            <input type="text" onkeyup="ajaxSearch()" onkeypress="searchForm(event)" value="" placeholder="Nhập từ khóa tìm kiếm..." id="key" class="header-search-input" autocomplete="off">
+          <button class="header-search-btn" type="submit" onclick="location.href='{{ url('/search') }}?key='+document.getElementById('key').value;">Tìm kiếm</button>
+          <div class="search-result">
+            <ul></ul>
+          </div>
+          <script type="text/javascript">
+            function searchForm(event){
+              if(event.which == 13)
+                location.href = '{{ url('search') }}?key='+document.getElementById('key').value;
+            }  
+            function ajaxSearch(){
+              let key = document.getElementById('key').value;
+              if(key != ''){
+                $(".search-result").attr('style','visibility:visible');
+                $.ajax({
+                  url: "{{ url('/ajax-search') }}?key="+key,
+                  success: function( result ) {
+                    
+                    $('.search-result ul').html(result);
+                  }
+                });
+              }else {
+              $(".search-result").attr('style','visibility:hidden');
+              }
+            }
+          </script>
+        </div>
       </div>
       <!-- /haeder-center -->
       <!-- header-right -->
       <div class="header-right">
         @php
-          $customer_email = session()->get("customer_email");
+          $customer_name = session()->get("customer_name");
         @endphp
-        @if (isset($customer_email))
-        <a href="{{ url("#") }}" class="header-register">
-          <i class="fa-regular fa-user"></i>
-          <span>
-            Xin Chào {{ $customer_email }}
-          </span>
-          <a href="{{ url("customers/logout") }}">Logout</a>
-        </a>
+        @if (isset($customer_name))
+          <div class="header-register">
+            <div class="header-login">
+              <i class="fa-regular fa-user"></i>
+              <span>
+                {{ $customer_name }}
+              </span>
+            </div>
+            <div class="infor-manage">
+              <a href="">Thông tin khách hàng</a>
+              <a href="">Thông tin đơn hàng</a>
+              <a href="{{ url("customers/logout") }}">Logout</a>
+            </div>
+          </div>
+          
         @else
         <a href="{{ url("customers/login") }}" class="header-register">
           <i class="fa-regular fa-user"></i>
@@ -138,9 +143,46 @@
           </span>
         </a>
         @endif
-        <div class="header-cart">
-          <a href="./cart"><i class="fa fa-bag-shopping"></i></a>
-          <span class="header-cart-text">0</span>
+        @php
+            use App\Http\ShoppingCart\Cart;
+            $number = Cart::cartNumber();
+        @endphp
+        <div class="header-cart-container">
+          <a href="{{ url('cart') }}" class="header-cart">
+            <span><i class="fa fa-bag-shopping"></i></span>
+            <span class="header-cart-text">{{ isset($number) ? $number : 0  }}</span>
+          </a>
+          
+          <div class="cart-mini">
+            @if(Cart::cartNumber() > 0)
+            @php
+              $cart = Cart::cartList();
+            @endphp  
+            <ul class="cart-mini-list">
+              @foreach($cart as $product)
+              <li class="cart-mini-item">
+                <img src="{{ asset('upload/products/'.$product['photo']) }}" alt="">
+                <div class="cart-mini-item-content">
+                  <a href="{{ url('products/detail/'.$product['id']) }}" class="cart-mini-name">{{ $product['name'] }}</a>
+                  <br>
+                  <span class="cart-mini-price">{{ number_format($product['price']) }}<span class="cart-mini-number"> x {{ $product['quantity'] }}</span></span>
+                </div>
+                <a href="{{ url('cart/remove/'.$product['id']) }}" class="cart-mini-item-icon"><i class="fa fa-close"></i></a>
+              </li>
+              @endforeach            
+            </ul>
+            @endif
+            <div class="cart-mini-footer">
+              @if(Cart::cartTotal() > 0) 
+              <div class="cart-mini-total">Tổng cộng: 
+                <span>{{ number_format(Cart::cartTotal()) }}</span>
+              </div>
+              <a href="{{ url("#") }}" class="viewProduct-btn cart-mini-btn">Tiến hàng thanh toán</a>
+              @else 
+              <p style="color: #2f2f3c">Không có sản phẩm nào trong giỏ</p>
+              @endif
+            </div>
+          </div>
         </div>
       </div>
       <!-- /heaeder-right -->

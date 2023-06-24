@@ -1,3 +1,26 @@
+.image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.images-hoverZoom {
+    position: relative;
+    object-fit: contain;
+    max-height: 100%;
+    cursor: zoom-in;
+    max-width: unset;
+    width: 100%;
+    height: auto;
+}
+.images-cover {
+    cursor: zoom-in;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
 .productDetail-container {
     display: flex;
     align-items: flex-start;
@@ -64,13 +87,13 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .productDetail-product-item:nth-child(4) {
     margin-bottom: 0px;
 }
 .productDetail-product-img {
-    width: 74px;
+    height: 80px;
     padding-right: 15px;
     border-right: 1px solid #eee;
 }
@@ -103,28 +126,30 @@
     width: 50%;
     padding: 0 15px;
 }
-.productDetail-images {
-}
 .productDetail-images img {
-    width: 100%;
-    padding-bottom: 30px;
+    width: 370px;
+    margin: 0 auto;
 }
 .productDetail-images-list {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 100%;
+    overflow-y: scroll;
+    margin-top: 10px;
 }
 .productDetail-images-item {
-    height: 90px;
+    padding: 2px 0;
     width: calc(33.3333% - 10px);
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #eee;
+    cursor: pointer;
 }
 .productDetail-images-item img {
-    width: 88px;
-    height: 88px;
+    width: 80px;
     padding: 0;
 }
 .productDetail-info-name {
@@ -228,9 +253,11 @@
     height: 50px;
     border: 1px solid #eee;
     display: flex;
+    border-bottom: 1px solid transparent;
 }
+
 .productDetail-tab li {
-    line-height: 50px;
+    line-height: 48px;
     padding: 0 15px;
     color: #2f2f33;
 }
@@ -247,12 +274,13 @@
     margin: 20px auto;
 }
 .productDetail-tab-content {
-    padding: 0 30px 20px;
+    padding: 10px 30px 20px;
     border: 1px solid #eee;
     margin-bottom: 40px;
+    display: none;
 }
-.productDetail-tab-content {
-    border-top: 1px solid transparent;
+.tab-active {
+    display: block;
 }
 .border-bottom-red {
     border-bottom: 2px solid #e32323;
@@ -267,4 +295,91 @@
     width: calc(25% - 2px);
     border: 1px solid #eee;
     padding-bottom: 30px;
+}
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: left;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.rating > input {
+    display: none;
+}
+
+.rating > label {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+    font-size: 1.5em;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.rating > label::before {
+    content: "\2605";
+    position: absolute;
+    transition: opacity 0.3s;
+}
+
+.rating > input:checked ~ label:before {
+    opacity: 1;
+    color: #f8d64e;
+}
+.form-comment-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.comment-group {
+    margin-bottom: 10px;
+}
+.comment-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+.comment-group input {
+    padding: 10px 10px;
+    outline: none;
+    width: 100%;
+    border: 1px solid #cccccc6e;
+    border-radius: 4px;
+}
+.comment-group textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #cccccc6e;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px 10px;
+    font-size: 16px;
+}
+.comment-group .comment-btn {
+    padding: 10px 10px;
+    background-color: #2875d3;
+    color: white;
+    outline: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 20%;
+    border: 1px solid #2875d3;
+}
+.comment-group .comment-btn:hover {
+    color: #2875d3;
+    background: white;
+}
+.rating-recomment {
+    display: flex;
+}
+.rating-recomment i {
+    color: rgb(244, 244, 19);
+    margin-right: 2px;
+}
+.rating-recomment span {
+    color: #76767e;
+}
+.productDetail-images-list .productDetail-images-item .active-detail {
+    border: 1px solid #2875d3;
 }

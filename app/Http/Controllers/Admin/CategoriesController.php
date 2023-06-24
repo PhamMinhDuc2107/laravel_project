@@ -12,9 +12,10 @@ class CategoriesController extends Controller
     public function read(Request $request){
         $search = $request->input("search") ?? "";
         if($search != "" ) {
-            $data = DB::table("categories")->where("name", "like", "%$search%")->get();
+            $data = DB::table("categories")->where("name", "like", "%$search%")-> paginate(20);
         }else {
-            $data = DB::table('categories')->where("parent_id","=","0")->orderBy("id","desc")->paginate(4);
+            $data = DB::table('categories')->where("parent_id","=","0")->orderBy("id","desc")->
+            paginate(20);
 
         }
         return view("admin.categories.read",compact(['data', 'search']));

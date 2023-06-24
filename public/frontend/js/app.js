@@ -13,14 +13,7 @@ window.addEventListener("load", function () {
             headerCategoryList.style.height = "0px";
         }
     });
-    //sortBar
-    let sortBar = document.querySelector(".sortBar-sort-text");
-    let sortBarItem = document.querySelectorAll(".sortBar-item");
-    [...sortBarItem].forEach((item) =>
-        item.addEventListener("click", function (e) {
-            sortBar.textContent = e.target.textContent;
-        })
-    );
+
     // tooltip
     let iconToolTip = document.querySelectorAll(".overplay-product-icon");
     [...iconToolTip].forEach((item) =>

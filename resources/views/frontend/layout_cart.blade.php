@@ -8,10 +8,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet"
+    <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{ asset("frontend/css/reset.css") }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/home.css") }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/blog.css") }}">
@@ -21,9 +19,22 @@
   <link rel="stylesheet" href="{{ asset('frontend/css/ProductDetail.css') }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/cart.css") }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/app.css") }}">
-
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/64917eaacc26a871b0239e2e/1h3c5dj1c';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
   <div class="wrapper">
     {{-- header --}}
     @include('frontend.blocks.header')
@@ -40,4 +51,6 @@
   </div>
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
+<script src="{{ asset("frontend/js/user.js") }}"></script>
+@yield('js')
 </html>

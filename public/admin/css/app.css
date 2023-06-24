@@ -5,7 +5,7 @@
     justify-content: center;
 }
 .input-search {
-    width: 88%;
+    width: 85%;
     padding: 10px 15px;
     font-size: 14px;
     color: #5a6a85;
@@ -19,7 +19,7 @@
 .btn-search {
     padding: 10px 15px;
     font-size: 14px;
-    width: 12%;
+    width: 15%;
     outline: none;
     color: white;
     background-color: #5d87ff;

@@ -1,6 +1,7 @@
 @extends("admin.layout")
 @section("data-view")
-	<div class="col-md-12">  
+	<div class="container-fluid">
+		<div class="col-md-12">  
 	    <div class="panel panel-primary">
 	        <div class="panel-heading">Add edit</div>
 	        <div class="panel-body">
@@ -12,6 +13,12 @@
 	                    <input type="text" required value="{{ isset($record->name)?$record->name:'' }}" name="name" class="form-control" required>
 	                </div>
 	            </div>
+							<div class="row" style="margin-top:5px;">
+								<div class="col-md-2">Date</div>
+								<div class="col-md-10">
+										<input type="date" required value="{{ isset($record->date)?$record->date:'' }}" name="date" class="form-control" required>
+								</div>
+						</div>
 	            <style>
 	            	.ck-editor__editable{
 	            		max-height: 350px;
@@ -68,5 +75,6 @@
 	        </form>
 	        </div>
 	    </div>
+	</div>
 	</div>
 @endsection

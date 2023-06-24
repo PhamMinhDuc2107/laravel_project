@@ -10,7 +10,7 @@
         <h3 class="product-nav-title">Điện thoại</h3>
         <ul class="product-nav-list">
           <li class="product-nav-item">
-            <a href="#Home" class="product-nav-link">Trang
+            <a href="{{ url("") }}" class="product-nav-link">Trang
               chủ</a>
           </li>
           <li class="product-nav-item">
@@ -18,14 +18,14 @@
               class="product-nav-link">Sản phẩm</a>
           </li>
           <li class="product-nav-item">
-            <a href="#Blog"
+            <a href="{{ url("/blog") }}"
               class="product-nav-link">Blog</a>
           </li>
           <li class="product-nav-item">
-            <a href="#" class="product-nav-link">Giới thiệu</a>
+            <a href="{{ url('/news') }}" class="product-nav-link">Giới thiệu</a>
           </li>
           <li class="product-nav-item">
-            <a href="#" class="product-nav-link">Liện hệ</a>
+            <a href="{{ url("/contact") }}" class="product-nav-link">Liện hệ</a>
           </li>
         </ul>
       </div>
@@ -53,23 +53,21 @@
                 <a href="#"><i
                     class="fa fa-search overplay-product-icon icon-viewProduct"
                     data-tooltip="Tìm kiếm"></i></a>
-                <a href="#Cart"><i
+                <a href="{{ asset('cart/buy/'.$item->id)}}"><i
                     class="fa-solid fa-cart-shopping overplay-product-icon"
                     data-tooltip="Giỏ hàng"></i></a>
               </div>
             </div>
           </div>
-          <div class="product-info">
+          <a class="product-info" href="{{ url("products/detail/$item->id") }}"> 
             <span class="product-info-name">{{ 
-              App\Models\Admin\ProductsModel::getCategoryName($item->category_id) }}</span>
+              App\Http\Controllers\Components\StaticController::getCategoryName($item->brand_id) }}</span>
             <h4 class="product-info-title">{{ $item->name }}</h4>
-            @if($item->discount > 0)
-            <div>
-              <span class="product-price-old">{{ ($item->price * ($item->discount / 100)) + $item->price  }}đ</span>
-            @endif()
-            <span class="product-price">{{ $item->price }}đ</span>
-            </div>
-          </div>
+              @if($item->discount > 0)
+              <div><span class="product-price-old">{{ number_format($item->price) }}đ</span>
+                @endif()
+                <span class="product-price">{{  number_format( $item->price - ($item->price * ($item->discount / 100))) }}đ</span></div>
+          </a>
         </div>
         {{-- /products-item --}}
         @endforeach

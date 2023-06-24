@@ -89,7 +89,6 @@
 .productShop-list {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
     margin: 0 -15px;
 }
@@ -163,7 +162,9 @@
 .sideBar-aside-item {
     margin-bottom: 5px;
 }
-.sideBar-aside-item {
+.sideBar-aside-item a {
+    display: block;
+    color: #2f2f33;
 }
 .sideBar-aside-item input {
     display: none;

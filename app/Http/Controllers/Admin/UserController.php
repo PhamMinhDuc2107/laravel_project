@@ -54,7 +54,7 @@ class UserController extends Controller
             $password = Hash::make($password);
             DB::table('users')->where("id", '=', $id)->update(["password"=>$password]);
         }
-        return redirect((url("backend/users")));
+        return redirect((url("backend/users")))->with(["msg"=>'Cập nhật thành công']);
     }
     function create() {
         $action = "backend/users/create-post";
@@ -66,7 +66,7 @@ class UserController extends Controller
         $password = request("password");
         $password = Hash::make($password);
         DB::table("users")->insert(['name'=>$name, "email"=>$email, "password"=>$password]);
-        return redirect(url("backend/users"));
+        return redirect(url("backend/users"))->with(['msg'=>"Thêm thành công"]);
     }
     function delete($id) {
         DB::table('users')->where("id", "=", $id)->delete();

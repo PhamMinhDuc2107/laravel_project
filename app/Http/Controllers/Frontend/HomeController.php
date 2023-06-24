@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\HomeModel;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    protected $model;
-    function __construct() {
-        $this->model = new HomeModel();
-    }
     function index() {
-        // $category = $this->model->getCategories($id);
-        $products = $this->model->getProducts();
-        return view("frontend.pages.home", compact(['products']));
+        $products = $this->getProducts();
+        return view("frontend.pages.home.home", compact(['products']));
+    }
+    function getProducts() {
+        $data = DB::table("products")->orderBy("id", "desc")->take(10)->get();
+        return $data;
     }
 }

@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('data-view')
 
-<div class="container">
+<div class="container-fluid">
   <div class="row text-center">
     <h3 class="mb-3">List Users</h3>
     <form class="col-12 mb-5 search-form" method="">
@@ -18,6 +18,9 @@
     <div class="col-2">
       <a href="{{ url("backend/users/create") }}" class="btn btn-success d-block">Create</a>
     </div>
+  </div>
+  <div>
+    {{ isset($msg) ? $msg : "" }}
   </div>
   <table class="table mt-3">
     <thead >
@@ -39,6 +42,8 @@
       @endforeach
     </tbody>
   </table>
-  {{ $records->render() }}
+  <div class="pagination">
+    {{ $records->links('pagination::bootstrap-4') }}
+  </div>
 </div>
 @endsection

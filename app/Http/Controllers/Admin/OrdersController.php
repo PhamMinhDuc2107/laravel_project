@@ -36,7 +36,8 @@ class OrdersController extends Controller
         return $customer;
     }
     function getProducts($order_id){
-        $products = DB::table("order_details")->join("products","order_details.product_id","=","products.id")->select("products.name","products.photo","products.discount","order_details.quantity","order_details.price")->where('order_id', "=", $order_id)->first();
+        $products = DB::table("order_details")->join("products","order_details.product_id","=","products.id")->select("products.name","products.photo","products.discount","order_details.quantity","order_details.price")->where('order_id', "=", $order_id)->get();
+        
         return $products;
     }
     static function getCustomerName($customer_id){

@@ -34,6 +34,8 @@
   s0.parentNode.insertBefore(s1,s0);
   })();
   </script>
+  @include("sweetalert::alert")
+
   <!--End of Tawk.to Script-->
   <div class="wrapper">
     {{-- header --}}
@@ -53,4 +55,6 @@
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
 <script src="{{ asset("frontend/js/user.js") }}"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{!! Toastr::message() !!}
 </html>

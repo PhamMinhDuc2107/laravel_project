@@ -36,6 +36,7 @@
   })();
   </script>
   <!--End of Tawk.to Script-->
+  @include("sweetalert::alert")
   <div class="wrapper">
       {{-- header --}}
       @include('frontend.blocks.header')
@@ -51,4 +52,6 @@
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
 <script src="{{ asset("frontend/js/user.js") }}"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{!! Toastr::message() !!}
 </html>

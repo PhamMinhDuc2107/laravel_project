@@ -9,7 +9,7 @@
       <input type="text" placeholder="Số điện thoại" class="login-input" name="phone">
       <input type="text" placeholder="Email" class="login-input" name="email">
       <input type="password" placeholder="Mật khẩu" class="login-input" name="password">
-      <button class="btn btn-login">Đăng kí</button>
+      <button class="btn btn-login" style="padding: 10px 0">Đăng kí</button>
     </form>
     <div class="register">
       <span>Bạn đã có tài khoản đăng nhập </span><a href="{{ url("customers/login") }}">tại đây</a>

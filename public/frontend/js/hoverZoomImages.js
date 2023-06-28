@@ -14,7 +14,7 @@ window.addEventListener("load", function () {
         let spaceX = (imageWidth / 2 - imageWrapperWidth) * 2;
         let spaceY = (imageHeight / 2 - imageWrapperHeight) * 2;
         imageWidth = imageWidth + spaceX;
-        imageHeight = imageHeight + spaceY + spaceY;
+        imageHeight = imageHeight + spaceY;
         let ratioX = imageWidth / imageWrapperWidth / 2;
         let ratioY = imageHeight / imageWrapperHeight / 2;
         let x = (pX - imageWrapper.offsetLeft) * ratioX;
@@ -31,10 +31,8 @@ window.addEventListener("load", function () {
     let boxImage = document.querySelectorAll(".productDetail-images-item");
     [...imagesList].forEach((item) =>
         item.addEventListener("click", function (e) {
-            [...boxImage].forEach((item) =>
-                item.classList.remove("active-detail")
-            );
-            e.target.parentNode.classList.add("active-detail");
+            [...boxImage].forEach((item) => (item.style.borderColor = "#eee"));
+            e.target.parentNode.style.borderColor = "#2785d3";
             let src = e.target.getAttribute("src");
             image.setAttribute("src", src);
         })

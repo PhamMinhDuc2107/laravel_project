@@ -125,8 +125,10 @@
       </div>
     </div>
     <div class="aside-item">
+      @if(isset($hot)) 
       <h3 class="aside-item-title yellow">Tin tức nổi bật</h3>
       <div class="aside-item-content">
+        
         @foreach ($hot as $item)
         <div class="aside-article-item">
           <img src="{{ asset("upload/news/$item->photo") }}" alt="" class="aside-article-img" />
@@ -143,5 +145,7 @@
         @endforeach
       </div>
     </div>
+    @endif
+
   </div>
   <!-- /aside-blog -->

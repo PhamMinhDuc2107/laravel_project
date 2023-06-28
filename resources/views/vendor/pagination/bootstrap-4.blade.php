@@ -57,7 +57,7 @@
         margin: 0 5px;
     }
     .pagination li span, .pagination li a {
-        
+        color: black;
         padding: 5px 10px;
         display: block;
         border: 1px solid #eee;

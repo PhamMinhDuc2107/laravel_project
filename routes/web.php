@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Frontend\IntroduceController;
+use App\Http\Controllers\Admin\CustomersController  as AdminCustomers;
+use App\Http\Controllers\Frontend\SocialController;
 use Laravel\Socialite\Facades\Socialite;
 //-------------------Admin-------------------
 Route::prefix("backend")->group(function( ) {
@@ -21,6 +24,14 @@ Route::prefix("backend")->group(function( ) {
         Route::get('',[UserController::class, "home"])->middleware("check.login");
     })->middleware("check.login");
     // users
+    Route::prefix('/customers')->group(function() {
+        Route::get("/", [AdminCustomers::class, "read"])->middleware("check.login");
+        Route::get("/create", [AdminCustomers::class, "create"])->middleware("check.login");
+        Route::post("/create-post", [AdminCustomers::class, "createPost"]);
+        Route::get("/edit/{id}", [AdminCustomers::class, "edit"])->middleware("check.login");
+        Route::post("/edit-post/{id}", [AdminCustomers::class, "editPost"]);
+        Route::get("/delete/{id}", [AdminCustomers::class, "delete"])->middleware("check.login");
+    })->middleware("check.login");
     Route::prefix('/users')->group(function() {
         Route::get("/", [UserController::class, "read"])->middleware("check.login");
         Route::get("/create", [UserController::class, "create"])->middleware("check.login");
@@ -75,22 +86,25 @@ use App\Http\Controllers\Frontend\CustomersController;
 use App\Http\Controllers\Frontend\BlogController as frontendBlog;
 use \App\Http\Controllers\Frontend\CartController;
 Route::prefix("/")->group(function() {
+    Route::get('introduce',[IntroduceController::class, 'read']);
     Route::get("",[HomeController::class, "index"]);
     // Products
     Route::prefix("products")->group(function() {
-        Route::get("",[frontendProducts::class, "read"]);
+        Route::get("/",[frontendProducts::class, "read"]);
+        Route::get("/news",[frontendProducts::class, "news"]);
+        Route::get("/hot",[frontendProducts::class, "hot"]);
+        Route::get("/sale",[frontendProducts::class, "sale"]);
         Route::get("/{id}",[frontendProducts::class, "products"]);
         Route::get('/detail/{id}', [frontendProducts::class, "productsDetail"]);
-        
     });
     Route::post('/comment-post/{id}', [frontendProducts::class, "comment"]);
     Route::get('/search',[frontendProducts::class,'search']);
     Route::get('/ajax-search',[frontendProducts::class,'ajax']);
-    Route::get('/rating/{id}',[ProductsFrontend::class,'rating']);
+    Route::get('/rating/{id}',[frontendProducts::class,'rating']);
     Route::get('/contact',function() {
-    $name = "Liên hệ";
-    return view('frontend.pages.contact.read',compact('name'));
-});
+        $name = "Liên hệ";
+        return view('frontend.pages.contact.read',compact('name'));
+    });
     // customers
     Route::prefix('customers')->group(function() {
         Route::get('/login',[CustomersController::class,'login']);
@@ -104,24 +118,20 @@ Route::prefix("/")->group(function() {
         Route::get('', [frontendBlog::class, "blog"]);
         Route::get('/detail/{id}', [frontendBlog::class, "blogDetail"]);
     });
+    Route::prefix('introduce')->group(function() {
+        Route::get('', [frontendBlog::class, "blog"]);
+        Route::get('/detail/{id}', [frontendBlog::class, "blogDetail"]);
+    });
     // Cart
     Route::prefix("cart")->group(function() {
         Route::get("",[CartController::class, 'read']);
         Route::get("/buy/{id}",[CartController::class, 'buy']);
         Route::get("/remove/{id}",[CartController::class, 'remove']);
-        Route::post("/update",[CartController::class, 'update']);
         Route::get("/order",[CartController::class, 'order']);
+        Route::post('/update-cart', [CartController::class, 'updateCart']);
     });
-    //social 
-    Route::get("chinh-sach-rieng-tu", function() {
-        return "Chính sacvhs ";
-    });
-    Route::get('/auth/redirect', function () {
-        return Socialite::driver('facebook')->redirect();
-    });
-     
-    Route::get("auth/facebook/callback", function() {
-        return "CallbackloginFacebook";
-    });
+    //Login social FaceBook
+    Route::get('/login/{social}', [SocialController::class,'redirectToSocial']);
+    Route::get('/login/callback/{social}', [SocialController::class,'handleSocialCallback']);
 });
 //-------------------/Frontend-------------------

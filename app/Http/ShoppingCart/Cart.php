@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Session;
 use DB;
 
 trait Cart {
-
     public static function cartAdd($id){
         $cart = Session::get('cart');
         if(isset($cart[$id])){
@@ -43,17 +42,6 @@ trait Cart {
         }
         Session::put('cart', $cart);
     }
-
-    public static function cartUpdate($id, $quantity){
-        $cart = Session::get('cart');
-        if($quantity == 0){
-            unset($cart[$id]);
-        } else {
-            $cart[$id]['quantity'] = $quantity;
-        }
-        Session::put('cart', $cart);
-    }
-
     public static function cartDelete($id){
         $cart = Session::get('cart');
         unset($cart[$id]);
@@ -65,7 +53,7 @@ trait Cart {
         $total = 0;
         if($cart != ""){
             foreach($cart as $product){
-                $total += ($product['price'] -  ($product['price'] * $product['discount'] / 100)) * $product['quantity'];
+                $total += ($product['price']) * $product['quantity'];
             }
         }
         return $total;
@@ -87,17 +75,11 @@ trait Cart {
         return $cart;
     }
 
-    public static function cartDestroy(){
-        Session::forget('cart');
-    }
-
     public static function cartOrder(){
         //$customer = Session::get('customer');
         $customer_id = Session::get('customer_id');
-        //---
         $cart = Session::get('cart');
-
-        // Insert record into orders table
+        
         $orderId = DB::table('orders')->insertGetId([
             'customer_id' => $customer_id,
             'price' => \App\Http\ShoppingCart\Cart::cartTotal(),

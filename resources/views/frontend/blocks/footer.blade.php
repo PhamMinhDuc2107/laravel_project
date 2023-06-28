@@ -56,19 +56,19 @@
               <h4 class="footer-item-title">Hướng dẫn</h4>
               <ul class="footer-menu">
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Trang chủ</a>
+                  <a href="{{ url('') }}" class="footer-menu-link">Trang chủ</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Sản phẩm</a>
+                  <a href="{{ url('products') }}" class="footer-menu-link">Sản phẩm</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Blog</a>
+                  <a href="{{ url('blog') }}" class="footer-menu-link">Blog</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Giới thiệu</a>
+                  <a href="{{ url('introduce') }}" class="footer-menu-link">Giới thiệu</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Liên hệ</a>
+                  <a href="{{ url('contact') }}" class="footer-menu-link">Liên hệ</a>
                 </li>
               </ul>
             </div>
@@ -76,19 +76,19 @@
               <h4 class="footer-item-title">Liên hệ</h4>
               <ul class="footer-menu">
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Trang chủ</a>
+                  <a href="{{ url('') }}" class="footer-menu-link">Trang chủ</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Sản phẩm</a>
+                  <a href="{{ url('/products') }}" class="footer-menu-link">Sản phẩm</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Blog</a>
+                  <a href="{{ url('blog') }}" class="footer-menu-link">Blog</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Giới thiệu</a>
+                  <a href="{{ url('introduce') }}" class="footer-menu-link">Giới thiệu</a>
                 </li>
                 <li class="footer-menu-item">
-                  <a href="" class="footer-menu-link">Liên hệ</a>
+                  <a href="{{ url('contact') }}" class="footer-menu-link">Liên hệ</a>
                 </li>
               </ul>
             </div>

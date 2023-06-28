@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="{{ asset('frontend/css/ProductDetail.css') }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/cart.css") }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/app.css") }}">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -35,6 +36,8 @@
   })();
   </script>
   <!--End of Tawk.to Script-->
+  @include("sweetalert::alert")
+
   <div class="wrapper">
     {{-- header --}}
     @include('frontend.blocks.header')
@@ -52,5 +55,7 @@
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
 <script src="{{ asset("frontend/js/user.js") }}"></script>
+ <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        {!! Toastr::message() !!}
 @yield('js')
 </html>

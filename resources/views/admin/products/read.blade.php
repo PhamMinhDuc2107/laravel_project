@@ -24,7 +24,7 @@
     </div>
           <table class="table table-bordered mt-3 p-2">
               <tr class="table-primary">
-                  <th style="width: 100px">Photo</th>
+                  <th style="width: 150px">Photo</th>
                   <th style="width: 250px">Name</th>
                   <th style="width: 100px">Category</th>
                   <th style="width: 100px">Brand</th>
@@ -38,10 +38,17 @@
               <tr>
                   <td >
                     @if($row->photo != "" && file_exists('upload/products/'.$row->photo))
-                      <img src="{{ asset("upload/products/$row->photo") }}" alt="" style="width:100%; height: 100px; object-fit: cover;>">
+                      <img src="{{ asset("upload/products/$row->photo") }}" alt="" style="width:100px;">
                     @endif  
                   </td>
-                  <td >{{ $row->name }}</td>
+                  <td style="
+                  display: -webkit-box;
+                  -webkit-box-orient: vertical;
+                  -webkit-line-clamp: 4;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  height: 100px
+                  ">{{ $row->name }}</td>
                   <td>
                     {{ App\Http\Controllers\Components\StaticController::getCategoryName($row->category_id) }}
                   </td>

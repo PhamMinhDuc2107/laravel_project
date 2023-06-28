@@ -25,12 +25,13 @@
              <a href="{{ url("cart/remove/".$item['id']) }}" class="cartMain-info-remove">Xóa</a>
            </div>
          </div>
-         <span class="cartMain-item-price">{{ number_format($item['price'] - ($item['price'] * $item['discount'] / 100)) }}đ</span>
+         <span class="cartMain-item-price" >{{ number_format($item['price'])}}đ</span>
          <div class="cartMain-item-amount">
-            <input type="number" autocomplete="off" min="1" class="input-number" value="{{ $item['quantity'] }}" name="product_{{ $item['id'] }}" required="Không thể để trống">
+            <input type="number" autocomplete="off" min="1" class="input-number quantity-input" value="{{ $item['quantity'] }}" name="product_{{ $item['id'] }}" required="Không thể để trống">
          </div>
+        
          <div class="cartMain-item-total">
-           <span class="cartMain-total-number">{{ number_format($item['price'] - ($item['price'] * $item['discount'] / 100) * $item['quantity']) }}đ</span>
+           <span class="cartMain-total-number" data-price = "{{ $item['price'] }}">{{ number_format(($item['price']) * $item['quantity']) }}đ</span>
          </div>
        </li>
       @endforeach
@@ -52,7 +53,6 @@
           <button class="cartMain-pay-btn">Tiếp tục mua hàng</button>
         </a>
        <div>
-        <input type="submit" class="cartMain-pay-btn" value="Cập nhật"></td>
         <span href="{{ url('cart/order') }}" class="cartMain-pay-link">
           <a class="cartMain-pay-btn" href="{{ url('cart/order') }}">Tiến hàng thanh toán</a>
         </span>
@@ -61,5 +61,37 @@
     </form>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+  $('.quantity-input').blur('input', function() {
+    let input = $(this);
+    console.log(input)
+    let quantity = input.val();
+    let productId = input.attr('name').replace('product_', '');
+    $.ajax({
+      url: "cart/update-cart",
+      method: "post",
+      data: {
+        _token: "{{ csrf_token() }}",
+        product_id: productId,
+        quantity: quantity
+      },
+      success: function(response) {
+        $('.cartMain-money-total').text(parseInt(response.total).toLocaleString() + '₫');
+        $('.cartMain-total-number').each(function() {
+          let price = parseInt($(this).data('price'));
+          let quantity = parseInt($(this).closest('.cartMain-item').find('.quantity-input').val());
+          let totalPrice = price * quantity;
+          $(this).text(totalPrice.toLocaleString() + 'đ');
+        })
+        
+      },
+      error: function(xhr, status, error) {
+        alert("Cập nhật thất bại")
+      }
+    });
+  });
+});
+</script>
 <!-- /cart-main -->
 @endsection

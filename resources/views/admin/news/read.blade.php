@@ -41,8 +41,13 @@
                         <img src="{{ asset('upload/news/'.$row->photo) }}" style="width:100%; height: 100px; object-fit: cover;">
                         @endif
                       </td>
-                      <td>{{ $row->name }}</td>
-                      <td>{!! $row->description !!}</td>
+                      <td style="">{{ $row->name }}</td>
+                      <td style="display: -webkit-box;
+                      -webkit-box-orient: vertical;
+                      -webkit-line-clamp: 3;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      height: 120px">{!! $row->description !!}</td>
                       <td style="text-align:center;">
                         @if($row->hot == 1)
                         <i class="fa-sharp fa-regular fa-square-check"></i>

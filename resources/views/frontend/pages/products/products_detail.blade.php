@@ -18,11 +18,13 @@
               <div class="images-cover"></div>
             </div>
             <div class="productDetail-images-list">
+              <i class="fa-solid fa-angle-left icon-pre"></i>
               @foreach ($detailImages as $item)
               <div class="productDetail-images-item">
                 <img src="{{ asset("upload/products/$item->photo_detail") }}" alt="" />
               </div>
               @endforeach
+              <i class="fa-solid fa-angle-right icon-next"></i>
             </div>
           </div>
           <div class="productDetail-info">
@@ -35,8 +37,8 @@
             </div>
             <div class="productDetail-price">
               @if ($record->discount != null )
-                    <span class="viewProduct-price-old">{{ number_format($record->price) }}</span>
-                    <span class="viewProduct-price-new">{{  number_format((float)$record->price - ((float)$record->price * (float)$record->discount / 100)) }}</span>
+                    <span class="viewProduct-price-old">{{ number_format($record->price) }}đ</span>
+                    <span class="viewProduct-price-new">{{  number_format((float)$record->price - ((float)$record->price * (float)$record->discount / 100)) }}đ</span>
                     @else
                     <span class="viewProduct-price-new">{{ number_format((float)$record->price) }}</span>
                     @endif
@@ -49,8 +51,7 @@
                 <i class="fa-solid fa-circle"></i> Thương hiệu: {{ $record->name }}
               </li>
               <li>
-                <i class="fa-solid fa-circle"></i> Dòng sản phẩm: ĐIỆN
-                THOẠI
+                <i class="fa-solid fa-circle"></i> Dòng sản phẩm: {{ App\Http\Controllers\Components\StaticController::getBrandName($record->brand_id) }}
               </li>
               <li>
                 <i class="fa-solid fa-circle"></i> Giảm giá 10% cho hoá
@@ -64,7 +65,7 @@
             <div class="productDetail-form">
               <div class="viewProduct-amount">
                 <i class="fa fa-minus icon-minus"></i>
-                <span class="viewProduct-number">1</span>
+                <span class="viewProduct-number ">1</span>
                 <i class="fa fa-plus icon-plus"></i>
               </div>
               <a href="{{ asset('cart/buy/'.$record->id)}}" class="viewProduct-btn">
@@ -113,7 +114,9 @@
           </ul>
           <div class="tab-wrapper">
             <div class="productDetail-tab-content tab-active" data-tab='1'>
-              {!! $record->description !!}
+              {!! $record->content !!}
+              <div class="btn-more">Xem thêm</div>
+              <div class="btn-collapse">Thu gọn</div>
             </div>
             <div class="productDetail-tab-content" data-tab='4'> 
               <h3 class="form-comment-title">Đánh giá sản phẩm {{ $record->name }}</h3>
@@ -149,12 +152,9 @@
           <h3 class="product-nav-title">Sản phẩm liên quan</h3>
         </div>
         <!-- /product-nav -->
-        @php
-            $products = App\Http\Controllers\Components\StaticController::products($record->id)
-        @endphp
         <div class="productDetail-list">
-          @if (isset($products))
-            @foreach ($products as $item)
+          @if (isset($productsRelateTo))
+            @foreach ($productsRelateTo as $item)
                {{-- product-item --}}
                 <div href="" class="productShop-item"  style="width:25%">
                   <div class="product-item-img">
@@ -181,8 +181,8 @@
                     </h4>
                     @if ($item->discount != null )
                     <div>
-                      <span class="product-price-old">{{ number_format($item->price) }}</span>
-                    <span class="product-price">{{  number_format((float)$item->price - ((float)$item->price * (float)$item->discount / 100)) }}</span>
+                      <span class="product-price-old">{{ number_format((float)$item->price + ((float)$item->price * (float)$item->discount / 100)) }}</span>
+                    <span class="product-price">{{ number_format($item->price)  }}</span>
                     </div>
                     @else
                     <span class="product-price">{{ number_format((float)$item->price) }}</span>
@@ -199,7 +199,7 @@
         <!-- address -->
         <div class="address">
           <select name="" id="" class="address-select">
-            <option value="Ha Nội">Ha Nội</option>
+            <option value="Ha Nội">Hà Nội</option>
             <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
             <option value="Sài Gòn">Sài Gòn</option>
           </select>
@@ -264,8 +264,8 @@
                   <h4 class="productDetail-product-name">
                     {{ $item->name }}
                   </h4>
-                  <span class="productDetail-product-price-old">{{ number_format($item->price) }}</span>
-                  <span class="productDetail-product-price-new">{{ number_format($item->price - ($item->price * $item->discount / 100)) }}</span>
+                  <span class="productDetail-product-price-old">{{ number_format($item->price + ($item->price * $item->discount / 100)) }}</span>
+                  <span class="productDetail-product-price-new">{{ number_format($item->price) }}</span>
                 </div>
               </a>
               @endforeach
@@ -280,4 +280,22 @@
 @section('js')
     <script src="{{ asset("frontend/js/productDetail.js") }}"></script>
     <script src="{{ asset("frontend/js/hoverZoomImages.js") }}"></script>
+    <script>
+      $(document).ready( function() {
+        let number = $('.viewProduct-number').val();
+        $(".icon-minus").click(function() {
+          if(number <= 1) {
+            number =1;
+          }else {
+            number--;
+          }
+          $('.viewProduct-number').text(number)
+        })
+        $(".icon-plus").click(function() {
+          number++;
+          $('.viewProduct-number').text(number)
+        })
+      })
+
+    </script>
 @endsection

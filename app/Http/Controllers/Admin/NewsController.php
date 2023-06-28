@@ -24,16 +24,16 @@ class NewsController extends Controller{
 		$action = url("backend/news/update-post/$id");
 		return view("admin.news.create_update",["record"=>$record,"action"=>$action]);
 	}
-	public function updatePost($id){
-		$this->modelNewsUpdate($id);
+	public function updatePost(Request $request,$id){
+		$this->modelNewsUpdate($request, $id);
 		return redirect(url("backend/news"));
 	}
 	public function create(){
 		$action = url("backend/news/create-post/");
 		return view("admin.news.create_update",["action"=>$action]);
 	}
-	public function createPost(){
-		$this->modelNewsCreate();
+	public function createPost(Request $request){
+		$this->modelNewsCreate($request);
 		return redirect(url("backend/news"));
 	}
 	public function delete($id){
@@ -48,36 +48,36 @@ class NewsController extends Controller{
 		$data = DB::table($this->table)->where("id", "=", $id)->first();
 		return $data;
 	}
-	function modelNewsCreate() {
-		$name = Request::get("name");
-		$date = Request::get("date");
-		$description = Request::get("description");
-		$content = Request::get("content");
-		$hot = Request::get("hot") != "" ? 1 : 0;
+	function modelNewsCreate(Request $request) {
+		$name = $request->get("name");
+		$date = $request->get("date");
+		$description = $request->get("description");
+		$content = $request->get("content");
+		$hot = $request->get("hot") != "" ? 1 : 0;
 		$photo = "";
-		if(Request::hasFile('photo')) {
-			$file_name = Request::file("photo")->getClientOriginalName();
+		if($request->hasFile('photo')) {
+			$file_name = $request->file("photo")->getClientOriginalName();
 			$photo = uniqid()."_".$file_name;
-			Request::file('photo')->move("upload/news", $photo);
+			$request->file('photo')->move("upload/news", $photo);
 		}
 		DB::table($this->table)->insert(["name"=>$name,'date'=>$date, 'description'=>$description, "content"=>$content, "hot"=>$hot, "photo"=>$photo]);
 	}
-	function modelNewsUpdate($id) {
-		$name = Request::get("name");
-		$date = Request::get("date");
-		$description = Request::get("description");
-		$content = Request::get("content");
-		$hot = Request::get("hot") != "" ? 1 : 0;
+	function modelNewsUpdate(Request $request,$id) {
+		$name = $request->get("name");
+		$date = $request->get("date");
+		$description = $request->get("description");
+		$content = $request->get("content");
+		$hot = $request->get("hot") != "" ? 1 : 0;
 		DB::table($this->table)->where('id', "=", $id)->update(compact(['name', "description", "content", "hot", 'date']));
-		if(Request::hasFile("photo")) {
+		if($request->hasFile("photo")) {
 			$record = DB::table($this->table)->where("id", "=", $id)->first();
 
 			if(file_exists("upload/news/$record->photo")) {
 				unlink("upload/news/$record->photo");
 			}
-			$file_name = Request::file('photo')->getClientOriginalName();
+			$file_name = $request->file('photo')->getClientOriginalName();
 			$file_name = uniqid()."_".$file_name;
-			Request::file("photo")->move("upload/news",$file_name);
+			$request->file("photo")->move("upload/news",$file_name);
 			DB::table($this->table)->where("id", '=', $id)->update(['photo'=>$file_name]);
 		}
 	}

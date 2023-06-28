@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td>Tổng giá</td>
-                        <td>{{ isset($products->price) ? number_format($products->price * $products->quantity) : "" }}</td>
+                        <td>{{ isset($order->price) ? number_format($order->price) : "" }}</td>
                     </tr>
                     <tr>
                         <td>Trạng thái giao hàng</td>
@@ -49,29 +49,26 @@
                         <th style="width:80px;">Discount</th>
                         <th style="width:80px;">Quantity</th>
                     </tr>
+                            @foreach ($products as $product)
                             <tr>
                                 <td>
-                                    @if($products->photo != "" && file_exists('upload/products/'.$products->photo))
-                                    <img src="{{ asset('upload/products/'.$products->photo) }}" style="width:100px;">
+                                    @if($product->photo != "" && file_exists('upload/products/'.$product->photo))
+                                    <img src="{{ asset('upload/products/'.$product->photo) }}" style="width:100px;">
                                     @endif
                                 </td>
-                                <td>{{ $products->name }}</td>
-                                <td>{{ number_format($products->price) }}</td>
-                                <td style="text-align:center;">{{ $products->discount }}%</td>
-                                <td style="text-align:center;">{{ $products->quantity }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ number_format($product->price) }}</td>
+                                <td style="text-align:center;">{{ $product->discount }}%</td>
+                                <td style="text-align:center;">{{ $product->quantity }}</td>
                             </tr>
+                            @endforeach
                 </table>
             </div>
         </div>
         <div style="margin-bottom:5px;">        
-          <a href="#" onclick="history.go(-1);" class="btn btn-danger">Quay lại</a>
-          @if($order->status = 0)
-          <a href="{{ url('backend/orders/update/'.$order->id) }}" class="btn btn-primary">Thực hiện giao hàng</a>     
-          @elseif($order->status = 1)
-          <a href="{{ url('backend/orders/update/'.$order->id) }}" class="btn btn-success ml-4">Hoàn thành</a>     
-          @elseif($order->status != 2 && $order->status != 1 && $order->status != 0)
-            <a href=""></a>
-          @endif  
+          <a href="#" onclick="history.go(-1);" class="btn btn-danger">Quay lại</a> 
+          <a href="{{ url('backend/orders/update/'.$order->id) }}" class="btn btn-primary">Thực hiện giao hàng</a>   
+          <a href="{{ url('backend/orders/update/'.$order->id) }}" class="btn btn-success ml-4">Hoàn thành</a>      
       </div>
     </div>
 </div>

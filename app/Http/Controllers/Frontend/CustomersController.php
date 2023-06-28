@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
-
-
+use RealRashid\SweetAlert\Facades\Alert;
+use Laravel\Socialite\Facades\Socialite;
 class CustomersController extends Controller
 {
     public function login(){
-        return view("frontend.pages.customer.form_customer_login");
+        $name = "Đăng nhập";
+        return view("frontend.pages.customer.form_customer_login", compact('name'));
     }
     public function loginPost(){
         $email = request()->get("email");
@@ -23,6 +23,7 @@ class CustomersController extends Controller
                 session()->put("customer_email",$record->email);
                 session()->put("customer_id",$record->id);
                 session()->put("customer_name",$record->name);
+                Alert::toast('Đăng nhập thành công', 'success')->position('top-end')->autoClose(2000);
                 return redirect(url(''));
             }
         }else {
@@ -30,7 +31,8 @@ class CustomersController extends Controller
         }
     }
     public function register(){
-        return view("frontend.pages.customer.form_customer_register");
+        $name = "Đăng kí";
+        return view("frontend.pages.customer.form_customer_register", compact('name'));
     }
     public function registerPost(){
         $email = request()->get("email");
@@ -51,4 +53,5 @@ class CustomersController extends Controller
         session()->flush();
         return redirect(url(''));
     }
+    
 }

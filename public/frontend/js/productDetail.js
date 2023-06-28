@@ -1,22 +1,4 @@
 window.addEventListener("load", function () {
-    let iconPlus = document.querySelector(".icon-plus");
-    let iconMinus = document.querySelector(".icon-minus");
-    let number = document.querySelector(".viewProduct-number");
-    let numberContent = +number.textContent;
-
-    iconMinus.addEventListener("click", function () {
-        if (numberContent > 1) {
-            numberContent -= 1;
-            number.textContent = numberContent;
-        } else {
-            return numberContent;
-        }
-    });
-    iconPlus.addEventListener("click", function () {
-        numberContent += 1;
-        number.textContent = numberContent;
-    });
-    //tab
     let tabItems = document.querySelectorAll(".tab-item");
     let tabContent = document.querySelectorAll(".productDetail-tab-content");
     [...tabItems].forEach((item) =>
@@ -32,4 +14,21 @@ window.addEventListener("load", function () {
             });
         })
     );
+    //learn-more
+    let btnMore = document.querySelector(".btn-more");
+    let btnCollapse = document.querySelector(".btn-collapse");
+    btnMore.addEventListener("click", function (e) {
+        let productTable = e.target.parentNode;
+        productTable.style.height = "auto";
+        productTable.style.overflow = "visible";
+        btnMore.style.display = "none";
+        btnCollapse.style.display = "block";
+    });
+    btnCollapse.addEventListener("click", function (e) {
+        let productTable = e.target.parentNode;
+        productTable.style.height = "390px";
+        productTable.style.overflow = "hidden";
+        btnMore.style.display = "block";
+        btnCollapse.style.display = "none";
+    });
 });

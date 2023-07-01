@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use \App\Http\ShoppingCart\Cart;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Commune;
+use App\Models\Coupons;
+use Carbon\Carbon;
+use App\Models\FeeShip;
 class CartController extends Controller
 {
     public function buy(Request $request,$id){
@@ -50,5 +56,72 @@ class CartController extends Controller
         }
         $total = Cart::cartTotal();
         return response()->json(['total' => $total, 'quantity'=>$quantity]);
+    }
+    //checkout
+    public function checkOut() {
+        $city = City::all();
+        return view('frontend.pages.cart.order', compact(
+            ['city']
+        ));
+    }
+    function ajaxDistrict(Request $request) {
+        $data = [];
+    
+        if ($request->has('cityId')) {
+            $cityId = $request->input('cityId');
+            $districts = District::where('matp', $cityId)->get();
+            
+            foreach ($districts as $district) {
+                $data[] = [
+                    'id' => $district->maqh,
+                    'name' => $district->name_quanhuyen,
+                ];
+            }
+        } elseif ($request->has('districtId')) {
+            $districtId = $request->input('districtId');
+            $communes = Commune::where('maqh', $districtId)->get();
+            foreach ($communes as $commune) {
+                $data[] = [
+                    'id' => $commune->xaid,
+                    'name' => $commune->name_xaphuong,
+                ];
+            }
+        }
+        return response()->json($data);
+    }   
+    //check Coupons
+    function ajaxCheckCoupon(Request $request) {
+        $code = $request->input('code');
+        $coupons = Coupons::where("code", "=",$code)->first();
+        $data =[];
+        if ($coupons) {
+            $discountName = $coupons->code;
+            $discount = 0; 
+            if ($coupons->discount_amount > 100) {
+                $discount = $coupons->discount_amount;
+            } elseif ($coupons->discount_percentage <= 100) {
+                $discount = $coupons->discount_percentage;
+            }
+            $data = [
+                'discount' => $discount,
+                'discountName' => $discountName,
+                'quantity' => $coupons->quantity,
+                'timeEnd' => $coupons->time_end,
+            ];
+            return response()->json($data);
+        }
+    }
+    function ajaxFeeShip(Request $request) {
+        $city = $request->input('city');
+        $districts = $request->input('districts');
+        $commune = $request->input('commune');
+        $data = [];
+        $record = FeeShip::where([
+            ["xaid", "=", $commune]
+        ])->first();
+        if($record) {
+            $data = ['feeship'=>$record->feeship];
+        }
+        return response()->json($data);
     }
 }

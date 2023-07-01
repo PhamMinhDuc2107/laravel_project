@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use  Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
@@ -32,6 +33,15 @@ Route::prefix("backend")->group(function( ) {
         Route::post("/edit-post/{id}", [AdminCustomers::class, "editPost"]);
         Route::get("/delete/{id}", [AdminCustomers::class, "delete"])->middleware("check.login");
     })->middleware("check.login");
+    //Coupons
+    Route::prefix("/coupons")->group(function() {
+        Route::get("/", [CouponsController::class, "read"])->middleware("check.login");
+        Route::get("/create", [CouponsController::class, "create"])->middleware("check.login");
+        Route::post("/create-post", [CouponsController::class, "createPost"]);
+        Route::get("/edit/{id}", [CouponsController::class, "edit"])->middleware("check.login");
+        Route::post("/edit-post/{id}", [CouponsController::class, "editPost"]);
+        Route::get("/delete/{id}", [CouponsController::class, "delete"])->middleware("check.login");
+    });
     Route::prefix('/users')->group(function() {
         Route::get("/", [UserController::class, "read"])->middleware("check.login");
         Route::get("/create", [UserController::class, "create"])->middleware("check.login");
@@ -129,6 +139,10 @@ Route::prefix("/")->group(function() {
         Route::get("/remove/{id}",[CartController::class, 'remove']);
         Route::get("/order",[CartController::class, 'order']);
         Route::post('/update-cart', [CartController::class, 'updateCart']);
+        Route::get('/checkout', [CartController::class, 'checkOut']);
+        Route::get('/checkout/ajax-district', [CartController::class, 'ajaxDistrict']);
+        Route::post('/check-coupon', [CartController::class, 'ajaxCheckCoupon']);
+        Route::post('/feeShip', [CartController::class, 'ajaxFeeShip']);
     });
     //Login social FaceBook
     Route::get('/login/{social}', [SocialController::class,'redirectToSocial']);

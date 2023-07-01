@@ -17,9 +17,7 @@ class SocialController extends Controller
 
     public function handleSocialCallback($social)
     {
-    
     $user = Socialite::driver($social)->user();
-    
     $authId = $this->checkCustomer($user, $social);
     $authCustomer = DB::table('social')->where('user_id', "=",$authId)->first();
     $account = DB::table("customers")->where("id", '=', $authCustomer->user)->first();

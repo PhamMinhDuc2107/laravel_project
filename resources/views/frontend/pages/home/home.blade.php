@@ -42,7 +42,7 @@
             />
           </div>
           </a>
-          @foreach ($mobile as $data)
+          @foreach ($products[0] as $data)
           <div class="product-item" >
             <div class="product-item-img">
               @if ($data->discount > 0)
@@ -135,7 +135,7 @@
             />
           </div>
         </a>
-        @foreach ($laptop as $data)
+        @foreach ($products[1] as $data)
           <div class="product-item" >
             <div class="product-item-img">
               @if ($data->discount > 0)
@@ -257,7 +257,7 @@
             />
           </div>
         </a>
-        @foreach ($tablet as $data)
+        @foreach ($products[2] as $data)
           <div class="product-item" >
             <div class="product-item-img">
               @if ($data->discount > 0)

@@ -54,7 +54,7 @@
         </a>
        <div>
         <span href="{{ url('cart/order') }}" class="cartMain-pay-link">
-          <a class="cartMain-pay-btn" href="{{ url('cart/order') }}">Tiến hàng thanh toán</a>
+          <a class="cartMain-pay-btn" href="{{ url('cart/checkout') }}">Tiến hàng thanh toán</a>
         </span>
        </div>
       </div>
@@ -65,7 +65,6 @@
   $(document).ready(function() {
   $('.quantity-input').blur('input', function() {
     let input = $(this);
-    console.log(input)
     let quantity = input.val();
     let productId = input.attr('name').replace('product_', '');
     $.ajax({

@@ -64,6 +64,13 @@ class CartController extends Controller
             ['city']
         ));
     }
+    public function total(Request $request) {
+        $priceTotal = Cart::cartTotal();
+        $coupon = $this->ajaxCheckCoupon($request);
+        $feeShip = $this->ajaxFeeShip($request);
+        dd($feeShip);
+    
+    }
     function ajaxDistrict(Request $request) {
         $data = [];
     

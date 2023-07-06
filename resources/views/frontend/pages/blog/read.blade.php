@@ -1,4 +1,7 @@
 @extends('frontend.layout_blog')
+@section('title')
+    {{ isset($name)  ? "$name Plican" : "Tin Tức" }}
+@endsection
 @section('data-view')
 <div class="newMain">
   <div class="container">

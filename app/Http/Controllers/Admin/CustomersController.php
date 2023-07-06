@@ -9,16 +9,17 @@ use App\Http\Requests\Admin\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\Customers;
 class CustomersController extends Controller
 {
     // lấy ra list danh sách sản phâm
     function read() {
-        $records = DB::table('customers')->orderBy("id", "desc")->paginate(10);
+        $records = Customers::orderBy("id", "desc")->paginate(10);
         return view("admin.customers.read", compact('records'));
     }
     function edit($id) {
         $action = "backend/customers/edit-post/".$id;
-        $record = DB::table('customers')->where("id", "=", $id)->first();
+        $record = Customers::where("id", "=", $id)->first();
         return view("admin.customers.create_update", compact(["action", "record"]));
     }
     function editPost(Request $request, $id) {
@@ -26,10 +27,10 @@ class CustomersController extends Controller
         $name = request('name');
         $password = request('password');
         $address = request('address');
-        DB::table('customers')->where("id", '=', $id)->update(['name'=>$name, "email"=>$email,  "address"=>$address]);
+        Customers::where("id", '=', $id)->update(['name'=>$name, "email"=>$email,  "address"=>$address]);
         if($password != "") {
             $password = Hash::make($password);
-            DB::table('customers')->where("id", '=', $id)->update(["password"=>$password]);
+            Customers::where("id", '=', $id)->update(["password"=>$password]);
         }
         return redirect((url("backend/customers")))->with(["msg"=>'Cập nhật thành công']);
     }
@@ -42,12 +43,13 @@ class CustomersController extends Controller
         $name = request("name");
         $password = request("password");
         $address = request("address");
+        $phone = request("phone");
         $password = Hash::make($password);
-        DB::table("customers")->insert(['name'=>$name, "email"=>$email, "password"=>$password, "address"=>$address]);
+        Customers::insert(['name'=>$name, "email"=>$email, "password"=>$password, "address"=>$address,'phone'=>$phone]);
         return redirect(url("backend/customers"))->with(['msg'=>"Thêm thành công"]);
     }
     function delete($id) {
-        DB::table('customers')->where("id", "=", $id)->delete();
+        Customers::where("id", "=", $id)->delete();
         return redirect(url("backend/customers"));
     }
 }

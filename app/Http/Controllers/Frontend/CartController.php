@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use \App\Http\ShoppingCart\Cart;
 use Illuminate\Support\Facades\Session;
@@ -13,6 +15,8 @@ use App\Models\Commune;
 use App\Models\Coupons;
 use Carbon\Carbon;
 use App\Models\FeeShip;
+use App\Models\Shipping;
+use Illuminate\Support\Facades\Mail;
 class CartController extends Controller
 {
     public function buy(Request $request,$id){
@@ -55,7 +59,8 @@ class CartController extends Controller
             Session::put('cart', $cart);
         }
         $total = Cart::cartTotal();
-        return response()->json(['total' => $total, 'quantity'=>$quantity]);
+        $cartNumber = Cart::cartNumber();
+        return response()->json(['total' => $total, 'quantity'=>$quantity, 'cartNumber'=>$cartNumber]);
     }
     //checkout
     public function checkOut() {
@@ -63,13 +68,6 @@ class CartController extends Controller
         return view('frontend.pages.cart.order', compact(
             ['city']
         ));
-    }
-    public function total(Request $request) {
-        $priceTotal = Cart::cartTotal();
-        $coupon = $this->ajaxCheckCoupon($request);
-        $feeShip = $this->ajaxFeeShip($request);
-        dd($feeShip);
-    
     }
     function ajaxDistrict(Request $request) {
         $data = [];
@@ -99,36 +97,106 @@ class CartController extends Controller
     //check Coupons
     function ajaxCheckCoupon(Request $request) {
         $code = $request->input('code');
-        $coupons = Coupons::where("code", "=",$code)->first();
+        $coupons = Coupons::where("code", $code)->first();
+        $now = Carbon::now();
         $data =[];
         if ($coupons) {
-            $discountName = $coupons->code;
-            $discount = 0; 
-            if ($coupons->discount_amount > 100) {
-                $discount = $coupons->discount_amount;
-            } elseif ($coupons->discount_percentage <= 100) {
-                $discount = $coupons->discount_percentage;
+            $endTime = Carbon::create("$coupons->time_end");
+            if($coupons->quantity > 0) {
+                if($now->lessThan($endTime)) {
+                    $data = [
+                        "code" => $coupons->code,
+                        "discount"=>$coupons->discount_amount,
+                    ];
+                    Session::put('coupons', $coupons->id);
+                }
             }
-            $data = [
-                'discount' => $discount,
-                'discountName' => $discountName,
-                'quantity' => $coupons->quantity,
-                'timeEnd' => $coupons->time_end,
-            ];
-            return response()->json($data);
         }
+        return response()->json($data);
     }
     function ajaxFeeShip(Request $request) {
-        $city = $request->input('city');
-        $districts = $request->input('districts');
         $commune = $request->input('commune');
         $data = [];
         $record = FeeShip::where([
             ["xaid", "=", $commune]
         ])->first();
         if($record) {
-            $data = ['feeship'=>$record->feeship];
+            $feeship = $record->feeship;
+            Session::put('feeship', $feeship);
+            $data = ['feeship'=>$feeship];
         }
         return response()->json($data);
+    }
+    public function ajaxCheckPay(Request $request) {
+        $city = $request->input('city');
+        $districts = $request->input('district');
+        $commune = $request->input('commune');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $address = $request->input('address').",".$commune.",".$districts.",".$city;
+        $note = $request->input('note');
+        $feeship = 30000;
+        $coupon_discount = 0;
+        if(session()->get('feeship')) {
+            $feeship = session()->get('feeship');
+        }
+        $payment = $request->input('paymentMethod');
+        $coupon_id = Session::get("coupons");
+        $customer_id = Session::get("customer_id");
+        $total = Cart::cartTotal() + $feeship;
+        $data = [
+            'name'=>$name,
+            'email'=>$email,
+            'phone'=>$phone,
+            "address"=>$address,
+            'notes'=>$note,
+            "method"=>0
+        ];
+        $cart = Session::get('cart');
+        switch($payment) {
+            case "cash": {
+                $shipping = Shipping::create($data);
+                $shipping_id = $shipping->id;
+                if($coupon_id) {
+                    $coupon = Coupons::find($coupon_id);
+                    $quantity = $coupon->quantity - 1;
+                    $coupon_discount = $coupon->discount_amount;
+                    $coupon->update(["quantity"=>$quantity]);
+                    $total = $total - $coupon_discount;
+                    Session::forget('coupons');
+                }
+                $order = Order::create([
+                    "customer_id" => $customer_id,
+                    "shipping_id" => $shipping_id,
+                    "quantity"=> Cart::cartNumber(),
+                    "total"=>$total,
+                    "date"=>now(),
+                    'order_status'=>0,
+                    "coupon_id" => $coupon_id,
+                    "feeship"=>$feeship,
+                ]);
+                $order_id = $order->id;
+                foreach($cart as $item) {
+                    $order_detail = OrderDetail::create([
+                        'order_id'=>$order_id,
+                        'product_id' => $item['id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                    ]);
+                }
+                $this->testEmail($email,$data, $total, $feeship,$coupon_discount,$cart );
+                Session::forget('feeship');
+                Session::forget('cart');
+                Alert::toast('Đặt hàng thành công', 'success')->position('top-end')->autoClose(2000);
+                return redirect(url("cart"));
+            }
+        }
+    }
+    public function testEmail($e,$data, $total, $feeship,$coupon_discount,$cart  )  {
+        Mail::send("frontend.pages.emails.test",compact(['data', 'total','feeship', 'coupon_discount','cart']), function($email) use($e) {
+            $email->subject("Đơn đặt hàng");
+            $email->to("$e"); 
+        });
     }
 }

@@ -1,4 +1,7 @@
 @extends('frontend.layout_cart')
+@section('title')
+    {{ isset($name)  ? "$name Plican" : "Tin Tức" }}
+@endsection
 @section('data-view')
 @php
   use App\Http\ShoppingCart\Cart;
@@ -77,6 +80,8 @@
       },
       success: function(response) {
         $('.cartMain-money-total').text(parseInt(response.total).toLocaleString() + '₫');
+        console.log(response.cartNumber)
+        $(".header-cart-text").text(response.cartNumber);
         $('.cartMain-total-number').each(function() {
           let price = parseInt($(this).data('price'));
           let quantity = parseInt($(this).closest('.cartMain-item').find('.quantity-input').val());

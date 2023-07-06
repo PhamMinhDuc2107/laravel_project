@@ -9,6 +9,7 @@ use  Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\SlidersController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Frontend\IntroduceController;
@@ -32,6 +33,15 @@ Route::prefix("backend")->group(function( ) {
         Route::get("/edit/{id}", [AdminCustomers::class, "edit"])->middleware("check.login");
         Route::post("/edit-post/{id}", [AdminCustomers::class, "editPost"]);
         Route::get("/delete/{id}", [AdminCustomers::class, "delete"])->middleware("check.login");
+    })->middleware("check.login");
+    // Sliders
+    Route::prefix('/sliders')->group(function() {
+        Route::get("/", [SlidersController::class, "read"])->middleware("check.login");
+        Route::get("/create", [SlidersController::class, "create"])->middleware("check.login");
+        Route::post("/create-post", [SlidersController::class, "createPost"]);
+        Route::get("/edit/{id}", [SlidersController::class, "edit"])->middleware("check.login");
+        Route::post("/edit-post/{id}", [SlidersController::class, "editPost"]);
+        Route::get("/delete/{id}", [SlidersController::class, "delete"])->middleware("check.login");
     })->middleware("check.login");
     //Coupons
     Route::prefix("/coupons")->group(function() {
@@ -143,6 +153,8 @@ Route::prefix("/")->group(function() {
         Route::get('/checkout/ajax-district', [CartController::class, 'ajaxDistrict']);
         Route::post('/check-coupon', [CartController::class, 'ajaxCheckCoupon']);
         Route::post('/feeShip', [CartController::class, 'ajaxFeeShip']);
+        Route::post('/check-pay', [CartController::class, 'ajaxCheckPay']);
+        Route::get('/test-email',[CartController::class,'testEmail']);
     });
     //Login social FaceBook
     Route::get('/login/{social}', [SocialController::class,'redirectToSocial']);

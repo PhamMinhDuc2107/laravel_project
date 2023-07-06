@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>@yield('title')</title>
+  <link rel="shortcut icon" type="image/png" href="https://cdn2.iconfinder.com/data/icons/symbols-8/50/1F17F-p-button-256.png"/>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap"
     rel="stylesheet" />
@@ -20,6 +21,8 @@
   <link rel="stylesheet" href="{{ asset("frontend/css/cart.css") }}">
   <link rel="stylesheet" href="{{ asset("frontend/css/app.css") }}">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 <body>
   <!--Start of Tawk.to Script-->
@@ -51,7 +54,9 @@
     @include('frontend.blocks.footer')
     {{-- /footer --}}
   </div>
-
+  <div class="click-top">
+    <i class="fa-solid fa-angles-up"></i>
+  </div>
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
 <script src="{{ asset("frontend/js/user.js") }}"></script>

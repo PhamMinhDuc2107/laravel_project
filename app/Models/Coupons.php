@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Coupons extends Model
 {
     protected $table = "coupons";
-    protected $fillable = ['code', 'discount_amount', 'discount_percentage' , 'quantity', 'time_start', 'time_end'];
+    protected $fillable = ['code', 'discount_amount', 'quantity', 'time_start', 'time_end'];
 
 }

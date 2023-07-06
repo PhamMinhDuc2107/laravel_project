@@ -1,4 +1,7 @@
 @extends('frontend.layout_home')
+@section('title')
+    Plican
+@endsection
 @section("data-view")
 <!-- productMobile -->
 <div class="product">
@@ -6,7 +9,7 @@
     <div class="product-container">
             <!-- product nav -->
       <div class="product-nav productMobile-color">
-        <h3 class="product-nav-title">Điện thoại</h3>
+        <h3 class="product-nav-title">{{ $cateName[0] }}</h3>
         <ul class="product-nav-list">
           <li class="product-nav-item">
             <a href="{{ url("") }}" class="product-nav-link">Trang chủ</a>
@@ -101,7 +104,7 @@
     <div class="product-container">
       <!-- product nav -->
       <div class="product-nav productLaptop-color">
-        <h3 class="product-nav-title">Macbook-Laptop</h3>
+        <h3 class="product-nav-title">{{ $cateName[1] }}</h3>
         <ul class="product-nav-list">
           <li class="product-nav-item">
             <a href="{{ url("products") }}" class="product-nav-link">Tất cả sản phẩm</a>
@@ -211,7 +214,6 @@
         </div>
       </a>
     </div>
-  @include('frontend.blocks.brand')
   </div>
 </div>
 <!-- /productLaptop -->
@@ -223,7 +225,7 @@
     <div class="product-container">
       <!-- product nav -->
       <div class="product-nav productAccessory-color">
-        <h3 class="product-nav-title">Phụ kiện</h3>
+        <h3 class="product-nav-title">{{ $cateName[2] }}</h3>
         <ul class="product-nav-list">
           <li class="product-nav-item">
             <a href="{{ url("products") }}" class="product-nav-link">Tất cả sản phẩm</a>
@@ -303,6 +305,8 @@
       </div>
       <!-- /product-list -->
     </div>
+  @include('frontend.blocks.brand')
+
   </div>
 </div>
 <!-- /productLaptop -->

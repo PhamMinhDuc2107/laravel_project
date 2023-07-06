@@ -1,4 +1,7 @@
 @extends('frontend.layout_cart')
+@section('title')
+    {{ isset($name)  ? "$name Plican" : "Tin Tức" }}
+@endsection
 @section('data-view')
 <div class="main">
   <div class="container">

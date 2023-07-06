@@ -22,13 +22,12 @@
   <div>
     {{ isset($msg) ? $msg : "" }}
   </div>
-  <table class="table mt-3">
+  <table class="table mt-3 table-hover table-bordered">
     <thead >
-      <tr class="text-center table-primary ">
+      <tr class="table table-primary ">
         <th class="col-4">Name</th>
         <th class="col-4">Email</th>
-        <th class="col-2">Edit</th>
-        <th class="col-2">Delete</th>
+        <th class="col-2"></th>
       </tr>
     </thead>
     <tbody>
@@ -36,8 +35,11 @@
       <tr class="">
         <th scope="row">{{ $row->name }}</th>
         <td>{{ $row->email }}</td>
-        <td class="text-center"><a href="{{ url("backend/users/edit/".$row->id) }}" class = "btn btn-primary">Edit</a></td>
-        <td class="text-center"><a href="{{ url("backend/users/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "btn btn-danger">Delete</a></td>
+        <td class="text-center">
+          <a href="{{ url("backend/users/edit/".$row->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+            <i class="ti ti-edit"></i>
+          </a>
+        <a href="{{ url("backend/users/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4"><i class="ti ti-trash"></i></a></td>
       </tr>
       @endforeach
     </tbody>

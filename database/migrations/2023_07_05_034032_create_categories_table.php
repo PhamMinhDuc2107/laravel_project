@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbl_socials', function (Blueprint $table) {
-            $table->id();
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments("id");
+            $table->string('name', 255);
+            $table->integer("parent_id");
+            $table->integer("display_at_home_page",);
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbl_socials');
+        Schema::dropIfExists('categories');
     }
 };

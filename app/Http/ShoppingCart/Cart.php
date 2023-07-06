@@ -2,8 +2,8 @@
 
 namespace App\Http\ShoppingCart;
 
+use App\Models\Coupons;
 use Illuminate\Support\Facades\Session;
-
 use DB;
 
 trait Cart {
@@ -79,18 +79,22 @@ trait Cart {
         //$customer = Session::get('customer');
         $customer_id = Session::get('customer_id');
         $cart = Session::get('cart');
-        
+        $total = \App\Http\ShoppingCart\Cart::cartTotal();
+        $coupon_id = Session::get("coupon");
+        if($coupon_id) {
+            $coupon = Coupons::find($coupon_id);
+            $total = $total - $coupon->discount_amount;
+        }
         $orderId = DB::table('orders')->insertGetId([
             'customer_id' => $customer_id,
-            'price' => \App\Http\ShoppingCart\Cart::cartTotal(),
+            'price' => $total,
             'status' => 0,
             'date' => now(),
         ]);
-
         // Insert record into order_details table
         foreach ($cart as $product) {
             //tính lại giá thành sản phẩm sau khi giảm giá
-            $price = $product['price'] - ($product['price'] * $product['discount'])/100;
+            $price = $product['price'];
             DB::table('order_details')->insert([
                 'order_id' => $orderId,
                 'product_id' => $product['id'],

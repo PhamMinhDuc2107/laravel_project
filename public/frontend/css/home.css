@@ -1,151 +1,165 @@
+.swiper {
+    width: 100%;
+    height: 293px;
+}
+/* .swiper button {
+    display: none !important;
+} */
 /* slider */
 .slider {
-  margin: 10px 0 60px 0;
+    margin: 10px 0 60px 0;
 }
 .slider-container {
-  display: flex;
-  height: 293px;
-  gap: 4px;
+    display: flex;
+    height: 293px;
+    gap: 4px;
 }
 .slider-right {
-  height: 293px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    height: 293px;
+    height: 100%;
+    display: flex;
+    width: 25%;
+    flex-direction: column;
+    gap: 4px;
+}
+.slider-list-images {
+    width: 75%;
+    overflow: hidden;
 }
 .slider-img {
-  width: 100%;
-  height: 100%;
-  object-fit: conver;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .slider-right .slider-img {
-  height: calc(288px / 2);
+    height: calc(288px / 2);
 }
 .slider-link {
-  position: relative;
+    position: relative;
 }
 /* MoblieProduct */
 .product {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 .productMobile-color {
-  background-color: #2875d3;
+    background-color: #2875d3;
 }
 /* LaptopProduct */
 .productLaptop-color {
-  background-color: #ffc000;
+    background-color: #ffc000;
 }
 /*  productAccessory*/
 .productAccessory-color {
-  background-color: #dd2b2b;
+    background-color: #dd2b2b;
 }
 /* LaptopProduct-banner*/
 .productLaptop-banner {
-  padding: 30px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .productLaptop-banner-item {
-  position: relative;
-  width: calc(50% - 10px);
+    position: relative;
+    width: calc(50% - 10px);
 }
 .productLaptop-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 /* /LaptopProduct-banner*/
 /* product-brand */
 .product-brand {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100px;
-  background-color: #fcfbf7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    background-color: #fcfbf7;
 }
 .product-brand-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(100% / 6);
-  height: 100px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% / 6);
+    height: 100px;
+    cursor: pointer;
 }
 .product-brand-img {
-  max-width: 130px;
-  max-height: 50px;
-  object-fit: cover;
+    max-width: 130px;
+    max-height: 50px;
+    object-fit: cover;
 }
 /* banner  */
 .banner {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 .banner-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .banner-item {
-  cursor: pointer;
-  position: relative;
+    cursor: pointer;
+    position: relative;
 }
 /* banner-full  */
 .banner-full {
-  padding-top: 30px;
+    padding-top: 30px;
 }
 .banner-full a {
-  position: relative;
+    position: relative;
 }
 .banner-full-img {
-  width: 100%;
-  height: 100%;
-  object-fit: conver;
+    width: 100%;
+    height: 100%;
+    object-fit: conver;
 }
 /* Service */
 .service {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 .service-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
-  border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    margin-top: 30px;
+    border: 1px solid #eee;
 }
 .service-item {
-  width: calc(25% - 10px);
-  display: flex;
-  align-items: center;
-  padding: 25px 15px 15px 40px;
+    width: calc(25% - 10px);
+    display: flex;
+    align-items: center;
+    padding: 25px 15px 15px 40px;
 }
 .service-item:not(:last-child) {
-  border-right: 1px solid #eee;
+    border-right: 1px solid #eee;
 }
 .service-item-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0px;
-  border: 5px double #fff;
-  margin-right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0px;
+    border: 5px double #fff;
+    margin-right: 20px;
 }
 .service-item-img img {
-  font-size: 20px;
+    font-size: 20px;
 }
 .service-content-title {
-  color: #2f2f33;
-  font-weight: bold;
-  line-height: 20px;
-  margin-bottom: 10px;
+    color: #2f2f33;
+    font-weight: bold;
+    line-height: 20px;
+    margin-bottom: 10px;
 }
 .service-content-text {
-  font-size: 13px;
-  color: #999999;
-  line-height: 20px;
+    font-size: 13px;
+    color: #999999;
+    line-height: 20px;
 }
 /* FooterTop */

@@ -23,6 +23,7 @@ class CustomersController extends Controller
                 session()->put("customer_email",$record->email);
                 session()->put("customer_id",$record->id);
                 session()->put("customer_name",$record->name);
+                session()->put("customer_phone",$record->phone);
                 Alert::toast('Đăng nhập thành công', 'success')->position('top-end')->autoClose(2000);
                 return redirect(url(''));
             }
@@ -41,7 +42,6 @@ class CustomersController extends Controller
         $name = request()->get("name");
         $phone = request()->get("phone");
         $address = request()->get("address");
-        //kiểm tra xem email đã tồn tại chưa, nếu chưa thì mới cho insert
         $check = DB::table("customers")->where("email","=",$email)->first();
         if(!isset($check->email))
             DB::table("customers")->insert(["email"=>$email,"name"=>$name,'password'=>$password,'phone'=>$phone,'address'=>$address]);

@@ -6,21 +6,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\HomeModel;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sliders;
 
 class HomeController extends Controller
 {
     function index() {
         $categories = $this->getCategoryDisplay();
+        $sliders = Sliders::where("active", "=", "1")->get();
         $cate = [];
+        $cateName = [];
         foreach($categories as  $item) {
             array_push($cate, $item->id);
+            array_push($cateName, $item->name);
         }
         $products =[];
         foreach ($cate as $item) {
             $product = DB::table("products")->where("category_id", '=', $item)->where("hot", '=', '1')->take(10)->get();
             array_push($products, $product);
         }
-        return view("frontend.pages.home.home", compact(['categories','products']));
+        return view("frontend.pages.home.home", compact(['categories','products', 'sliders','cateName']));
     }
     static public function getProducts($id) {
         $data = DB::table("products")->where("category_id", '=',$id)->orderBy("id", "asc")->take(10)->get();

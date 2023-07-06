@@ -8,15 +8,17 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Components\StaticController;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Arr;
-
+use App\Models\Rating;
+use App\Models\ProductImgs;
+use App\Models\Products;
 class ProductsController extends Controller
 {
     protected $model;
     function read(Request $request) {
-        $data = DB::table("products")->orderBy("id", "desc")->paginate(12);
+        $data = Products::orderBy("id", "desc")->paginate(12);
         $brand = DB::table('categories')->where('parent_id', "!=", "0")->get();
         $urlName = "products";
-        $query = DB::table("products")->orderBy("id", "desc");
+        $query = Products::orderBy("id", "desc");
         $count = $query->count();
         $order = request()->get("order");
         $min_price = $query->min('price') ;
@@ -29,9 +31,9 @@ class ProductsController extends Controller
     }
     function sale(Request $request) {
         $urlName = "products/sale";
-        $data = DB::table("products")->where('discount','>', "0")->orderBy("discount", "desc")->paginate(12);
+        $data = Products::where('discount','>', "0")->orderBy("discount", "desc")->paginate(12);
         $brand = DB::table('categories')->where('parent_id', "!=", "0")->get();
-        $query = DB::table("products")->where('discount','>', "0");
+        $query = Products::where('discount','>', "0");
         $count = $query->count();
         $order = request()->get("order");
         $min_price = $query->min('price') ;
@@ -44,8 +46,8 @@ class ProductsController extends Controller
         return view("frontend.pages.products.products", compact('data', "order",'count', 'brand','name','urlName','min_price', 'max_price'));
     }
     function hot(Request $request) {
-        $data = DB::table("products")->where('hot','!=', "0")->orderBy("id", "asc")->paginate(12);
-        $query = DB::table("products")->where('hot','!=', "0");
+        $data = Products::where('hot','!=', "0")->orderBy("id", "asc")->paginate(12);
+        $query = Products::where('hot','!=', "0");
         $count = $query->count();
         $brand = DB::table('categories')->where('parent_id', "!=", "0")->get();
         $order = request()->get("order");
@@ -61,7 +63,7 @@ class ProductsController extends Controller
     }
     function news(Request $request) {
         $urlName = "products/news";
-        $data = DB::table("products")->orderBy("id", "desc")->paginate(12);
+        $data = Products::orderBy("id", "desc")->paginate(12);
         $brand = DB::table('categories')->where('parent_id', "!=", "0")->get();
         $order = request()->get("order");
         $query = DB::table('products');
@@ -76,8 +78,8 @@ class ProductsController extends Controller
         return view("frontend.pages.products.products", compact('data', "order",'count', 'brand','name','urlName','min_price', 'max_price'));
     }
     function products(Request $request,$id) {
-        $data = DB::table('products')->where("category_id", "=", $id)->paginate(12);
-        $query = DB::table('products')->where("category_id", "=", $id);
+        $data = Products::where("category_id", "=", $id)->paginate(12);
+        $query = Products::where("category_id", "=", $id);
         $category = StaticController::getCategoryName($id);
         $brand = DB::table('categories')->where('parent_id', "!=", "0")->get();
         $order = request()->get("order");
@@ -95,7 +97,7 @@ class ProductsController extends Controller
         return view("frontend.pages.products.products", compact(['data', "order","name",'brand','count','urlName',"min_price", "max_price"]));
     }
     function productsDetail($id) {
-        $record = DB::table('products')->where("id", "=", $id)->first();
+        $record = Products::where("id", "=", $id)->first();
         $detail = $record->name;
         $star = $this->getStart($id);
         $productsRelateTo = StaticController::products($record->category_id);
@@ -105,7 +107,7 @@ class ProductsController extends Controller
     }
     public function search(Request $request){
 		$key = request('key');
-		$data = DB::table("products")->where("name","like",'%'.$key.'%')->orWhere("description","like",'%'.$key.'%')->orWhere("content","like",'%'.$key.'%')->paginate(12);
+		$data = Products::where("name","like",'%'.$key.'%')->orWhere("description","like",'%'.$key.'%')->orWhere("content","like",'%'.$key.'%')->paginate(12);
         $name   =   "Tìm kiếm sản phẩm";
         $brands = StaticController::getBrands();
         $records = $data->count();
@@ -113,7 +115,7 @@ class ProductsController extends Controller
 }
 public function ajax(){
     $key = request('key');
-    $data = DB::table("products")->where("name","like",'%'.$key.'%')->orWhere("description","like",'%'.$key.'%')->orWhere("content","like",'%'.$key.'%')->select('name','id','photo')->get();
+    $data = Products::where("name","like",'%'.$key.'%')->orWhere("description","like",'%'.$key.'%')->orWhere("content","like",'%'.$key.'%')->select('name','id','photo')->get();
     $str = "";
     foreach($data as $row){
         $str =  $str."<li><img src='".asset('upload/products/'.$row->photo)."'> <a href='".url('products/detail/'.$row->id)."'>".$row->name."</a></li>";
@@ -127,7 +129,7 @@ public function comment(Request $request, $id){
         $comment = $request->get('comment');
         $now = now();
         $date = $now->format("Y/m/d");
-        DB::table('rating')->insert(['star'=>$star, 'customer_id'=>$customer_id, 'comment'=>$comment, 'product_id'=>$id, 'date'=>$date]);
+        Rating::insert(['star'=>$star, 'customer_id'=>$customer_id, 'comment'=>$comment, 'product_id'=>$id, 'date'=>$date]);
         return redirect(url("/products/detail/$id"));
     } else {
         return redirect(url('customers/login'));
@@ -136,26 +138,26 @@ public function comment(Request $request, $id){
 }
 
 public function getStart($id) {
-    $data= DB::table('rating')->where("product_id", '=', $id)->orWhere("star", '=', 5)->get();
+    $data= Rating::where("product_id", '=', $id)->orWhere("star", '=', 5)->get();
     return $data->count();
 }
 public function getImagesDetail($id) {
-    $data = DB::table('products_images')->where("product_id", '=', $id)->get();
+    $data = ProductImgs::where("product_id", '=', $id)->get();
     return $data;
 }
     public function order($order) {
         switch ($order) {
             case 'nameAsc': 
-                $data = DB::table("products")->orderBy("name", "asc")->paginate(12);
+                $data = Products::orderBy("name", "asc")->paginate(12);
                 break;
             case 'nameDesc': 
-                $data = DB::table("products")->orderBy("name", "desc")->paginate(12);
+                $data = Products::orderBy("name", "desc")->paginate(12);
                 break;
             case 'priceAsc': 
-                $data = DB::table("products")->orderBy("price", "asc")->paginate(12);
+                $data = Products::orderBy("price", "asc")->paginate(12);
                 break;
             case 'priceDesc': 
-                $data = DB::table("products")->orderBy("price", "desc")->paginate(12);
+                $data = Products::orderBy("price", "desc")->paginate(12);
                 break;
         }
         return $data;

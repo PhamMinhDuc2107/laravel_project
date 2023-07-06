@@ -21,17 +21,15 @@
   <div>
     {{ isset($msg) ? $msg : "" }}
   </div>
-  <table class="table mt-3">
+  <table class="table mt-3 table-bordered table-hover">
     <thead >
       <tr class=" table-primary ">
         <th class="col-2">Code</th>
         <th class="col-2">Discount_Amount</th>
-        <th class="col-1">Discount_Precentage</th>
-        <th class="col-3">Time_Start</th>
-        <th class="col-3">Time_End</th>
+        <th class="col-2">Time_Start</th>
+        <th class="col-2">Time_End</th>
         <th class="col-1">Quantity</th>
-        <th class="col-2">Edit</th>
-        <th class="col-2">Delete</th>
+        <th class="col-1"></th>
       </tr>
     </thead>
     <tbody>
@@ -39,12 +37,17 @@
       <tr class="">
         <th>{{ $item->code }}</th>
         <th>{{ number_format($item->discount_amount) }}d</th>
-        <th>{{ $item->discount_percentage }}%</th>
         <th>{{ $item->time_start }}</th>
         <th>{{ $item->time_end }}</th>
         <th>{{ $item->quantity }}</th>
-        <td class="text-center"><a href="{{ url("backend/coupons/edit/".$item->id) }}" class = "btn btn-primary">Edit</a></td>
-        <td class="text-center"><a href="{{ url("backend/coupons/delete/".$item->id) }}" onclick="return window.confirm('Are you sure?')" class = "btn btn-danger">Delete</a></td>
+        <td class="text-center">
+          <a href="{{ url("backend/coupons/edit/".$item->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+            <i class="ti ti-edit"></i>
+          </a>
+          <a href="{{ url("backend/coupons/delete/".$item->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4">
+            <i class="ti ti-trash"></i>
+          </a>
+        </td>
       </tr>
       @endforeach
     </tbody>

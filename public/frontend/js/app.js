@@ -37,4 +37,11 @@ window.addEventListener("load", function () {
             tooltip.parentNode.removeChild(tooltip);
         })
     );
+    let clickScrollTop = document.querySelector(".click-top");
+    clickScrollTop.addEventListener("click", function (e) {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    });
 });

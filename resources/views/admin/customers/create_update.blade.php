@@ -18,7 +18,11 @@
       </div>
       <div class="mb-3">
         <label  class="form-label"> Address</label>
-        <input type="text" class="form-control" name="address" value="{{ isset($record->name)?$record->address:"" }}" >
+        <input type="text" class="form-control" name="address" value="{{ isset($record->address)?$record->address:"" }}" >
+      </div>
+      <div class="mb-3">
+        <label  class="form-label"> Phone</label>
+        <input type="text" class="form-control" name="phone" value="{{ isset($record->phone)?$record->phone:"" }}" >
       </div>
       <div class="mb-4">
         <label  class="form-label">Password</label>

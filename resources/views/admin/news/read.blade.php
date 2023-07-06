@@ -26,19 +26,18 @@
           <div class="panel-body">
               <table class="table table-bordered table-hover">
                   <tr class="table-primary">
-                      <th style="width:100px;">Photo</th>
-                      <th style="width:100px">Name</th>
-                      <th style="width:300px">Description</th>
-                      <th style="width:50px;">Hot</th>
-                      <th style="width:100px;">Date</th>
-                      <th style="width:50px;">Edit</th>
-                      <th style="width:50px;">Delete</th>
+                      <th style="col-1">Photo</th>
+                      <th class="col-2">Name</th>
+                      <th class="col-3">Description</th>
+                      <th class="col-1">Hot</th>
+                      <th class="col-2">Date</th>
+                      <th ></th>
                   </tr>
                   @foreach($data as $row)
                   <tr>
-                      <td>
+                      <td class="text-center">
                         @if($row->photo != "" && file_exists('upload/news/'.$row->photo))
-                        <img src="{{ asset('upload/news/'.$row->photo) }}" style="width:100%; height: 100px; object-fit: cover;">
+                        <img src="{{ asset('upload/news/'.$row->photo) }}" style=" height: 100px; object-fit: cover;">
                         @endif
                       </td>
                       <td style="">{{ $row->name }}</td>
@@ -55,11 +54,13 @@
                       </td>
                       <td>{{ date("d/m/Y", strtotime($row->date)) }}</td>
                       <td class="text-center">
-                        <a href="{{ url('backend/news/update/'.$row->id) }}" class="btn btn-primary">Edit</a>&nbsp;
+                        <a href="{{ url("backend/news/edit/".$row->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+                          <i class="ti ti-edit"></i>
+                        </a>
+                        <a href="{{ url("backend/news/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4">
+                          <i class="ti ti-trash"></i>
+                        </a>
                       </td>
-                      <td class="text-center">
-                        <a href="{{ url('backend/news/delete/'.$row->id) }}"  class="btn btn-danger" onclick="return window.confirm('Are you sure?');">Delete</a>
-                      </td> 
                   </tr>
                   @endforeach
               </table>

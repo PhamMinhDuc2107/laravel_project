@@ -16,10 +16,6 @@
         <label  class="form-label">Discount Amount </label>
         <input type="text" class="form-control" name="amount" value="{{ isset($record->discount_amount)?$record->discount_amount:"" }}" >
       </div>
-      <div class="mb-3">
-        <label  class="form-label"> Discount Percentage</label>
-        <input type="text" class="form-control" name="percentage" value="{{ isset($record->discount_percentage)?$record->discount_percentage:"" }}" >
-      </div>
       <div class="mb-4">
         <label  class="form-label">Quantity</label>
         <input type="text" class="form-control" name="quantity" value="{{ isset($record->quantity)?$record->quantity:"" }}" >

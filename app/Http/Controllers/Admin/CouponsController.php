@@ -20,7 +20,6 @@ class CouponsController extends Controller
     function createPost(Request $request) { 
             $code = $request->input('code');
             $discount_amount = (int)$request->input('amount');
-            $discount_percentage = (int)$request->input('percentage');
             $quantity = (int)$request->input('quantity');
             $time_start = $request->input('time_start');
             $time_end = $request->input('time_end');
@@ -29,7 +28,6 @@ class CouponsController extends Controller
             $coupons = new Coupons;
             $coupons->code = $code;
             $coupons->discount_amount = $discount_amount;
-            $coupons->discount_percentage = $discount_percentage;
             $coupons->quantity = $quantity;
             $coupons->time_start = $time_start;
             $coupons->time_end = $time_end;
@@ -45,7 +43,6 @@ class CouponsController extends Controller
     function editPost(Request $request, $id) { 
             $code = $request->input('code');
             $discount_amount = (int)$request->input('amount') ;
-            $discount_percentage = (int)$request->input('percentage');
             $quantity = (int)$request->input('quantity');
             $time_start = $request->input('time_start');
             $time_end = $request->input('time_end');
@@ -53,7 +50,6 @@ class CouponsController extends Controller
             if($coupons) {
                 $coupons->code = $code;
                 $coupons->discount_amount = $discount_amount;
-                $coupons->discount_percentage = $discount_percentage;
                 $coupons->quantity = $quantity;
                 $coupons->time_start = $time_start;
                 $coupons->time_end = $time_end;

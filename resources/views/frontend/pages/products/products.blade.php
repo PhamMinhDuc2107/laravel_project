@@ -1,4 +1,7 @@
 @extends('frontend.layout_cart')
+@section('title')
+    {{ isset($name) ? $name : "Tất cả sản phẩm" }}
+@endsection
 @section('data-view')
 <!-- main -->
 <div class="main">
@@ -93,9 +96,8 @@
           <button type="submit" name="search" class="sideBar-list-btn">Tìm kiếm</button>
           <div class="sideBar-item" >
             @csrf
-            <h3 class="sideBar-item-title">Khoảng giá</h3>
             <p style="margin-bottom: 10px">
-              <label for="amount" >Price range:</label>
+              <label for="amount"></label>
               <input type="text" id="amount" readonly style="border:0; color:#2875d3; font-weight:bold;">
               <input type="hidden" name="start_price" id="start_price">
               <input type="hidden" name="end_price" id="end_price">

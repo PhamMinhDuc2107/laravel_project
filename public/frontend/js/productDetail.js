@@ -26,7 +26,7 @@ window.addEventListener("load", function () {
     });
     btnCollapse.addEventListener("click", function (e) {
         let productTable = e.target.parentNode;
-        productTable.style.height = "390px";
+        productTable.style.height = "430px";
         productTable.style.overflow = "hidden";
         btnMore.style.display = "block";
         btnCollapse.style.display = "none";

@@ -1,4 +1,7 @@
 @extends('frontend.layout_cart')
+@section('title')
+    {{ isset($detail) ? $detail : "Chi tiết sản phẩm" }}
+@endsection
 @section('data-view')
 @php
     $name = App\Http\Controllers\Components\StaticController::getCategoryName($record->category_id);

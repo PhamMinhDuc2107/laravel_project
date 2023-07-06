@@ -29,8 +29,7 @@
       <tr class="text-center table-primary ">
         <th class="col-6">Name</th>
         <th class="col-2">Display_at_home_page</th>
-        <th class="col-1">Edit</th>
-        <th class="col-1">Delete</th>
+        <th class="col-1"></th>
       </tr>
     </thead>
     <tbody>
@@ -43,9 +42,10 @@
               @endif
             </td>
             <td class="text-center">
-              <a href="{{ url('backend/categories/edit/'.$row->id) }}" class="btn btn-primary">Edit</a>&nbsp;
-            </td>
-            <td class="text-center"><a href="{{ url('backend/categories/delete/'.$row->id) }}" onclick="return window.confirm('Are you sure?');" class="btn btn-danger">Delete</a></td>
+              <a href="{{ url("backend/categories/edit/".$row->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+                <i class="ti ti-edit"></i>
+              </a>
+            <a href="{{ url("backend/categories/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4"><i class="ti ti-trash"></i></a></td>
         </tr>
         @php
         $subCategories = DB::table("categories")->where("parent_id","=",$row->id)->orderBy("id","desc")->get();
@@ -59,10 +59,11 @@
               <i class="fa-sharp fa-regular fa-square-check"></i>
               @endif
             </td>
-            <td  class="text-center">
-              <a href="{{ url('backend/categories/edit/'.$rowSub->id) }}" class="btn btn-primary">Edit</a>&nbsp;
-            </td>
-            <td  class="text-center"><a href="{{ url('backend/categories/delete/'.$rowSub->id) }}" onclick="return window.confirm('Are you sure?');" class="btn btn-danger">Delete</a></td>
+            <td class="text-center">
+              <a href="{{ url("backend/categories/edit/".$rowSub->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+                <i class="ti ti-edit"></i>
+              </a>
+            <a href="{{ url("backend/categories/delete/".$rowSub->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4"><i class="ti ti-trash"></i></a></td>
         </tr>
         @endforeach   
         @endif 

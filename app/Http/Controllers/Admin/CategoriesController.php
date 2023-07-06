@@ -5,23 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Categories;
 class CategoriesController extends Controller
 {
     
     public function read(Request $request){
         $search = $request->input("search") ?? "";
         if($search != "" ) {
-            $data = DB::table("categories")->where("name", "like", "%$search%")-> paginate(20);
+            $data = Categories::where("name", "like", "%$search%")-> paginate(20);
         }else {
-            $data = DB::table('categories')->where("parent_id","=","0")->orderBy("id","desc")->
+            $data = Categories::where("parent_id","=","0")->orderBy("id","desc")->
             paginate(20);
 
         }
         return view("admin.categories.read",compact(['data', 'search']));
     }
     public function edit(Request $request,$id){
-        $record = DB::table('categories')->where("id","=",$id)->first();
+        $record = Categories::where("id","=",$id)->first();
         $action = url('backend/categories/edit-post/'.$id);
         return view("admin.categories.create_update",["record"=>$record,"action"=>$action]);
         
@@ -31,7 +31,7 @@ class CategoriesController extends Controller
         $parent_id = $request->get("parent_id");
         $display_at_home_page = $request->get("hot") != "" ? 1 : 0;
         //update name
-        DB::table('categories')->where("id","=",$id)->update(["name"=>$name,"parent_id"=>$parent_id, "display_at_home_page"=>$display_at_home_page]);
+        Categories::where("id","=",$id)->update(["name"=>$name,"parent_id"=>$parent_id, "display_at_home_page"=>$display_at_home_page]);
         return redirect(url('backend/categories'));
     }
     public function create(Request $request){
@@ -42,11 +42,11 @@ class CategoriesController extends Controller
         $name = $request->get("name");
         $parent_id = $request->get("parent_id");
         $display_at_home_page = $request->get("hot") != "" ? 1 : 0;
-        DB::table('categories')->insert(["name"=>$name,"parent_id"=>$parent_id, "display_at_home_page"=>$display_at_home_page ]);
+        Categories::insert(["name"=>$name,"parent_id"=>$parent_id, "display_at_home_page"=>$display_at_home_page ]);
         return redirect(url('backend/categories'));
     }
     public function delete(Request $request,$id){
-        $record = DB::table('categories')->where("id","=",$id)->orWhere("parent_id","=",$id)->delete();
+        $record = Categories::where("id","=",$id)->orWhere("parent_id","=",$id)->delete();
         return redirect(url('backend/categories'));
     }
 }

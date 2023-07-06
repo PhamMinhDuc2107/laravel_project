@@ -1,5 +1,12 @@
 @extends("admin.layout")
 @section("data-view")
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box
+  }
+</style>
 <div class="container-fluid">
   <div class="col-md-12">
     <div class="row text-center">
@@ -24,19 +31,18 @@
     </div>
           <table class="table table-bordered mt-3 p-2">
               <tr class="table-primary">
-                  <th style="width: 150px">Photo</th>
+                  <th style="width: 100px">Photo</th>
                   <th style="width: 250px">Name</th>
                   <th style="width: 100px">Category</th>
                   <th style="width: 100px">Brand</th>
                   <th style="width: 100px">Price</th>
                   <th style="width: 80px">Discount</th>
                   <th style="width: 80px">Hot</th>
-                  <th style="width:80px">Edit</th>
-                  <th style="width:80px">Delete</th>
+                  <th style="width:100px"></th>
               </tr>
               @foreach($data as $row)
               <tr>
-                  <td >
+                  <td class="text-center">
                     @if($row->photo != "" && file_exists('upload/products/'.$row->photo))
                       <img src="{{ asset("upload/products/$row->photo") }}" alt="" style="width:100px;">
                     @endif  
@@ -44,7 +50,7 @@
                   <td style="
                   display: -webkit-box;
                   -webkit-box-orient: vertical;
-                  -webkit-line-clamp: 4;
+                  -webkit-line-clamp: 3;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   height: 100px
@@ -63,11 +69,13 @@
                   @endif
                   </td>
                   <td class="text-center">
-                    <a href="{{ url('backend/products/update/'.$row->id) }}" class="btn btn-primary">Edit</a>&nbsp;
+                    <a href="{{ url("backend/products/update/".$row->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+                      <i class="ti ti-edit"></i>
+                    </a>
+                    <a href="{{ url("backend/products/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4">
+                      <i class="ti ti-trash"></i>
+                    </a>
                   </td>
-                  <td class="text-center">
-                    <a href="{{ url('backend/products/delete/'.$row->id) }}"  class="btn btn-danger" onclick="return window.confirm('Are you sure?');">Delete</a>
-                  </td> 
               </tr>
               @endforeach
           </table>

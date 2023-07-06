@@ -5,11 +5,9 @@ use App\Models\Admin\NewsModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-//khai báo class News
-use App\MyCustomClass\News;
+use App\Models\News;
 
 class NewsController extends Controller{
-	protected $table = 'news';
 	public function read(Request $request){
 		$search = $request->input("search") ?? "";
 		if($search != "" ) {
@@ -41,11 +39,11 @@ class NewsController extends Controller{
 		return redirect(url("backend/news"));
 	}
 	function modelGetRecords() {
-		$data = DB::table($this->table)->orderBy("id", "desc")->paginate(50);
+		$data = News::orderBy("id", "desc")->paginate(50);
 		return $data;
 	}
 	function modelGetRecord($id) {
-		$data = DB::table($this->table)->where("id", "=", $id)->first();
+		$data = News::where("id", "=", $id)->first();
 		return $data;
 	}
 	function modelNewsCreate(Request $request) {
@@ -60,7 +58,7 @@ class NewsController extends Controller{
 			$photo = uniqid()."_".$file_name;
 			$request->file('photo')->move("upload/news", $photo);
 		}
-		DB::table($this->table)->insert(["name"=>$name,'date'=>$date, 'description'=>$description, "content"=>$content, "hot"=>$hot, "photo"=>$photo]);
+		News::insert(["name"=>$name,'date'=>$date, 'description'=>$description, "content"=>$content, "hot"=>$hot, "photo"=>$photo]);
 	}
 	function modelNewsUpdate(Request $request,$id) {
 		$name = $request->get("name");
@@ -68,9 +66,9 @@ class NewsController extends Controller{
 		$description = $request->get("description");
 		$content = $request->get("content");
 		$hot = $request->get("hot") != "" ? 1 : 0;
-		DB::table($this->table)->where('id', "=", $id)->update(compact(['name', "description", "content", "hot", 'date']));
+		News::where('id', "=", $id)->update(compact(['name', "description", "content", "hot", 'date']));
 		if($request->hasFile("photo")) {
-			$record = DB::table($this->table)->where("id", "=", $id)->first();
+			$record = News::where("id", "=", $id)->first();
 
 			if(file_exists("upload/news/$record->photo")) {
 				unlink("upload/news/$record->photo");
@@ -78,14 +76,14 @@ class NewsController extends Controller{
 			$file_name = $request->file('photo')->getClientOriginalName();
 			$file_name = uniqid()."_".$file_name;
 			$request->file("photo")->move("upload/news",$file_name);
-			DB::table($this->table)->where("id", '=', $id)->update(['photo'=>$file_name]);
+			News::where("id", '=', $id)->update(['photo'=>$file_name]);
 		}
 	}
 	function modelNewsDelete($id) {
-		$record = DB::table($this->table)->where("id", "=", $id)->first();
+		$record = News::where("id", "=", $id)->first();
 		if(file_exists("upload/news/$record->photo")) {
 			unlink("upload/news/$record->photo");
 		}
-		DB::table($this->table)->where("id", "=", $id)->delete();
+		News::where("id", "=", $id)->delete();
 	}
 }

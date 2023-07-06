@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Social;
+use App\Models\Customers;
 class SocialController extends Controller
 {
     public function redirectToSocial($social)
@@ -19,8 +21,8 @@ class SocialController extends Controller
     {
     $user = Socialite::driver($social)->user();
     $authId = $this->checkCustomer($user, $social);
-    $authCustomer = DB::table('social')->where('user_id', "=",$authId)->first();
-    $account = DB::table("customers")->where("id", '=', $authCustomer->user)->first();
+    $authCustomer = Social::where('user_id', "=",$authId)->first();
+    $account = Customers::where("id", '=', $authCustomer->user)->first();
         if (isset($account)) {
             session()->put("customer_email", $account->email);
             session()->put("customer_id", $account->id);
@@ -34,25 +36,23 @@ class SocialController extends Controller
 
     } 
     public function checkCustomer($user, $social) {
-        $authCustomer = DB::table('social')->where("provider_user_id", $user->id)->first();
+        $authCustomer = Social::where("provider_user_id", $user->id)->first();
         if(!empty($authCustomer)) {
             return $authCustomer->user_id;
         } else {
-            $authId = DB::table('social')->insertGetId([
-                'provider_user_id'=> $user->id,
-                "provider"=>$social,
-                'user'=>null,
-            ]);
-            $email = DB::table("customers")->where("email", '=', $user->email)->first();
+            $email = Customers::where("email", '=', $user->email)->first();
             if(empty($email)) {
-                $id = DB::table('customers')->insertGetId([
+                $authId = Social::insertGetId([
+                    'provider_user_id'=> $user->id,
+                    "provider"=>$social,
+                    'user'=>null,
+                ]);
+                $id = Customers::insertGetId([
                     "name"=>$user->name, 
                     "email"=> $user->email,
                     "password"=>"",
-                    'address'=>null,
-                    'phone'=>null,
                 ]);
-                DB::table('social')->where("user_id", '=', $authId)->update(["user"=>$id]);  
+                Social::where("user_id", '=', $authId)->update(["user"=>$id]);  
             }
             return $authId;
         }

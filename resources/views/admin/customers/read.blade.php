@@ -22,24 +22,33 @@
   <div>
     {{ isset($msg) ? $msg : "" }}
   </div>
-  <table class="table mt-3">
+  <table class="table mt-3 table-bordered table-hover">
     <thead >
-      <tr class="text-center table-primary ">
-        <th class="col-4">Name</th>
-        <th class="col-4">Email</th>
-        <th class="col-4">Address</th>
-        <th class="col-2">Edit</th>
-        <th class="col-2">Delete</th>
+      <tr class=" table-primary ">
+        <th class="col-1">Name</th>
+        <th class="col-1">Email</th>
+        <th class="col-3">Address</th>
+        <th class="col-1">Phone</th>
+        <th class="col-2">Image</th>
+        <th class=""></th>
       </tr>
     </thead>
     <tbody>
       @foreach ($records as $row)
       <tr class="">
-        <th scope="row">{{ $row->name }}</th>
-        <td>{{ $row->email }}</td>
-        <td>{{ $row->address }}</td>
-        <td class="text-center"><a href="{{ url("backend/customers/edit/".$row->id) }}" class = "btn btn-primary">Edit</a></td>
-        <td class="text-center"><a href="{{ url("backend/customers/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "btn btn-danger">Delete</a></td>
+        <td class="col-2">{{ $row->name }}</td>
+        <td class="col-2">{{ $row->email }}</td>
+        <td class="col-3">{{ $row->address }}</td>
+        <td class="col-1">{{ $row->phone }}</td>
+        <td class="col-2">{{ $row->image }}</td>
+        <td class="text-center">
+          <a href="{{ url("backend/customers/edit/".$row->id) }}" class = "bg-primary text-white rounded-2 px-2 py-1 text-4">
+            <i class="ti ti-edit"></i>
+          </a>
+          <a href="{{ url("backend/customers/delete/".$row->id) }}" onclick="return window.confirm('Are you sure?')" class = "mx-2 bg-danger text-white rounded-2 px-2 py-1 text-4">
+            <i class="ti ti-trash"></i>
+          </a>
+        </td>
       </tr>
       @endforeach
     </tbody>

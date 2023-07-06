@@ -11,7 +11,8 @@
 @endphp
 <div class="wrapper">
   <div class="container">
-    <form action="" class="form-order">
+    <form  class="form-order" method="post" action="{{ url("cart/check-pay") }}">
+      @csrf
       <div class="main">
         <h3 class="main-logo">Plican</h3>
         <div style="display: flex">
@@ -19,43 +20,39 @@
             <div action="" class="main-form">
               <h4 class="main-form-title">Thông tin nhận hàng</h4>
               <div class="main-form-input">
-                <input type="text" name="email">
-                <label for="">Email</label>
+                <input type="text" name="email" value="{{ session('customer_email') ? session('customer_email') : '' }}"class="form-input input-email" placeholder="Email">
               </div>
               <div class="main-form-input">
-                <input type="text" name="name" >
-                <label for="">Họ và tên</label>
+                <input type="text" name="name" value="{{ session('customer_name') ? session('customer_name') : '' }}"class="form-input input-name" placeholder="Họ và tên">
               </div>
               <div class="main-form-input">
-                <input type="text" name="number">
-                <label for="">Số điện thoại</label>
+                <input type="number" name="phone" class="form-input input-phone" value="{{ session('customer_phone') ? session('customer_phone') : '' }}" placeholder="Số điện thoại">
               </div>
               <div class="customer-select-box">
                 <select name="city" id="city">
-                  <option value="">---</option>
+                  <option value=""select>Thành Phố</option>
                   @if($city)
                     @foreach ($city as $item)
-                      <option value="{{ $item->matp }}">{{ $item->name_city }}</option>
+                      <option value="{{ $item->name_city }}" data-id="{{ $item->matp }}">{{ $item->name_city }}</option>
                     @endforeach
                   @endif
                 </select>
               </div>
               <div class="customer-select-box">
-                <select name="districts" id="districts">
-                  <option value="">---</option>
+                <select name="district" id="districts">
+                  <option value="" selected>Quận Huyện</option>
                 </select>
               </div>
               <div class="customer-select-box">
                 <select name="commune" id="commune">
-                  <option value="">---</option>
+                  <option value="">Xã</option>
                 </select>
               </div>
               <div class="main-form-input">
-                <input type="text" >
-                <label for="">Địa chỉ rõ ràng</label>
+                <input type="text" class="form-input input-address" placeholder="Địa chỉ" name="address">
               </div>
               <div class="main-form-input">
-                <textarea type="text" placeholder="Ghi chú..."></textarea>
+                <textarea type="text" placeholder="Ghi chú..." class="input-note" name="note"></textarea>
               </div>
             </div>
           </div>
@@ -66,27 +63,13 @@
                 <input type="radio" id="box">
                 <label for="box">Giao hàng tận nơi</label>
               </div>
-              <span class="price-feeship">0đ</span>
+              <input type="text" disabled class="price-feeship" name="feeship" value="">
             </div>
             <h4 class="main-form-title">Thanh toán</h4>
             <div class="right-wrapper">
               <div class="input-group">
-                <input type="radio" id="box1">
+                <input type="radio" id="box1" name="paymentMethod" value="cash" class="input-ship" >
                 <label for="box1">Thanh toán khi nhận hàng(COD)</label>
-              </div>
-              <i class="fa-solid fa-money-bill"></i>
-            </div>
-            <div class="right-wrapper">
-              <div class="input-group">
-                <input type="radio" id="box2">
-                <label for="box2">Thanh toán Momo</label>
-              </div>
-              <i class="fa-solid fa-money-bill"></i>
-            </div>
-            <div class="right-wrapper">
-              <div class="input-group">
-                <input type="radio" id="box3">
-                <label for="box3">Thanh toán VNPay</label>
               </div>
               <i class="fa-solid fa-money-bill"></i>
             </div>
@@ -107,17 +90,16 @@
                   </div>
                   <div class="aside_item-name">{{ $item['name'] }}</div>
                 </div>
-                <div class="aside_item-price">{{ number_format($item['price']) }}đ</div>
+                <div class="aside_item-price">{{number_format($item['price'], 0, ',', '.') }}đ</div>
               </div>
               @endforeach
             @endif
           </div>
           <div class="aside_coupons">
             <div class="main-form-input">
-              <input type="text" name="coupon" class="input-coupon" >
-              <label for="">Mã giảm giá</label>
+              <input type="text" name="coupon" class="input-coupon" placeholder="Mã giảm giá" >
             </div>
-            <input type="" value="Áp dụng" class="coupons-btn">
+            <input value="Áp dụng" class="coupons-btn">
           </div>
           <div class="coupon-alert">
             <span class="coupon-success"></span>
@@ -126,11 +108,11 @@
           <div class="aside_price">
             <div class="aside_price-item">
               <span>Tạm tính</span>
-              <span class="price">{{ number_format(cart::cartTotal()) }}đ</span>
+              <span class="price">{{ number_format(Cart::cartTotal(), 0, ',', '.') }}đ</span>
             </div>
             <div class="aside_price-item">
               <span>Phí vận chuyển</span>
-              <span class="price-feeship price-fee">0đ</span>
+              <input disabled class="price-feeship price-fee">
             </div>
             <div class="aside_price-item">
               <span>Discount</span>
@@ -139,14 +121,14 @@
           </div>
           <div class="aside_price-total">
             <span>Tổng cộng</span>
-            <p class="price-total">29.000.000đ</p>
+            <p class="price-total">{{ number_format(Cart::cartTotal(), 0, ',', '.') }}đ</p>
           </div>
           <div class="aside_btn">
             <a href="{{ url("cart") }}" >
               <i class="fa fa-angle-left"></i>
               Quay về giỏ hàng
             </a>
-            <button type="submit">Đặt hàng</button>
+            <button type="submit" class="aside_btn-submit">Đặt hàng</button>
           </div>
         </div>
       </div>
@@ -157,37 +139,33 @@
     <script src="{{ asset("frontend/js/order.js") }}"></script>
     <script>
       $(document).ready(function() {
-        function total() {
-          let price = +{{ Cart::cartTotal() }};
-          let total = price; // Khởi tạo giá trị total bằng giá trị của price
-          let discount = +$(".aside_price-coupon").text().split("đ")[0];
-          let feeShip = +$(".price-fee").text().split("đ")[0];
-          if(discount = 0) {
-            if (discount > 100) {
-              total = price - discount + feeShip; // Cập nhật total nếu discount lớn hơn 100
-            } else if (discount <= 100) {
-              total = price - (price * discount / 100) + feeShip; // Cập nhật total nếu discount nhỏ hơn hoặc bằng 100
-            }
-          } else if(feeShip = 0) {
-            total = price - feeShip;
-          }
-          console.log(total)
-           $(".price-total").html(`${total.toLocaleString()}đ`)
+          function total() {
+            let price = +{{ Cart::cartTotal() }};
+            let total = price;
+            let discountText = $(".aside_price-coupon").text().split("đ")[0];
+            let feeShipText = $(".price-fee").val().split("đ")[0];
+            let feeShip= +(feeShipText.replace(/[.,\s₫]/g, ""));
+            let discount= +(discountText.replace(/[.,\s₫]/g, ""));
+            total = price + feeShip - discount;
+            let totalFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total)
+           $(".price-total").text(`${totalFormat}`)
         }
         total();
         // address
         function ajaxAdrress(select,select2,url) {
           $(`#${select}`).change(function(e) {
-          let id = $(this).val();
+          let selectedOption = $(this).find(":selected");
+          let id = selectedOption.data("id");
           let communeSelect = $(`#${select2}`);
           communeSelect.empty();
           if(id != "") {
             $.ajax({
               url:`${url}`+id,
               success: function( result ) {
+                console.log(result)
                 $.each(result, function(index, item) {
                   communeSelect.append(
-                      `<option value="${item.id}">${item.name}</option>`
+                      `<option value="${item.name}" data-id ='${item.id}'>${item.name}</option>`
                   );
                 });
               },
@@ -213,28 +191,15 @@
               _token: "{{ csrf_token() }}",
               code: coupon},
             success: function(result) {
-              let priceShip = $(".price-ship").text();
-              if(result != []) {
-                let timeEnd = new Date(`${result.timeEnd}`)
-              let now = new Date();
-              if(timeEnd > now ) {
-                if(result.quantity <= 0) {
-                  $(".coupon-errors").html(`Số lượng mã khuyến mại đã hết`)
-                } else {
-                  if(result.discount > 100) {
-                    $(".coupon-success").html(`Áp dụng mã ${result.discountName} thành công giảm ${result.discount.toLocaleString()}đ`)
-                    $('.aside_price-coupon').html(`- ${result.discount.toLocaleString()}đ`)
-                  }else if(result.discount <= 100) { 
-                    $(".coupon-success").html(`Áp dụng mã ${result.discountName} thành công giảm ${result.discount.toLocaleString()}%`)
-                    $('.aside_price-coupon').html(`- ${result.discount}%`)
-                  }
-                }
-              }else {
-                $(".coupon-errors").html(`Mã khuyến mãi đã hết hạn`)
-              }
-              } else {
-                $(".coupon-errors").html(`Mã coupons không hợp lệ`)
-
+              let discountFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result.discount)
+              console.log(result)
+              if(result.code != null) {
+                $('.coupon-success').text(`Áp dụng thành công`);
+                $(".aside_price-coupon").text(`${discountFormat}`)
+                total()
+              } else  {
+                $('.coupon-errors').text(`Mã không hợp lệ`);
+                $(".aside_price-coupon").text(`0đ`)
               }
             },
             error: function(xhr, status, error) {
@@ -245,24 +210,22 @@
         })
         //feeship
         $('#city').change(function(e) {
-          let id = $(this).val();
-          console.log(id)
+          let selectedOption = $(this).find(":selected");
+          let id = selectedOption.data("id");
           ajaxFeeShip('city',id);
-          
         })
         $('#districts').change(function(e) {
-          let id = $(this).val();
-          console.log(id)
+          let selectedOption = $(this).find(":selected");
+          let id = selectedOption.data("id");
           ajaxFeeShip('districts',id);
-          
         })
         $('#commune').change(function(e) {
-          let id = $(this).val();
-          console.log(id)
+          let selectedOption = $(this).find(":selected");
+          let id = selectedOption.data("id");
           ajaxFeeShip('commune', id);
         })
         function ajaxFeeShip(name, id) {
-          $(".price-feeship").text("0đ")
+          $(".price-feeship").val("0đ")
           $.ajax({
             url: "{{ url('cart/feeShip') }}",
             method: 'post',
@@ -271,9 +234,12 @@
               [name]: [id],
             },
             success: function(result) {
+              console.log(result);
               if(result) {
-                let priceFee = result.feeship;
-                $(".price-feeship").text(`${priceFee.toLocaleString()}đ`);
+                let priceFee = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result.feeship || "30000");
+                if (typeof priceFee !== 'undefined' && priceFee !== null) {
+                  $(".price-feeship").val(priceFee);
+                } 
                 total();
               }else {
                 $(".price-feeship").text(`0đ`)

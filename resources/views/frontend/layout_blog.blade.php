@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>@yield('title')</title>
+  <link rel="shortcut icon" type="image/png" href="https://cdn2.iconfinder.com/data/icons/symbols-8/50/1F17F-p-button-256.png"/>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap"
     rel="stylesheet" />
@@ -48,6 +49,9 @@
     {{-- footer --}}
     @include('frontend.blocks.footer')
     {{-- /footer --}}
+  </div>
+  <div class="click-top">
+    <i class="fa-solid fa-angles-up"></i>
   </div>
 </body>
 <script src="{{ asset("frontend/js/app.js") }}"></script>
